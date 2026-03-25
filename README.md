@@ -17,18 +17,22 @@ throughout the development and plan accordingly.
 
 
 <!-- Your exemplar title. Make it sound catchy! -->
-# This is my exemplar title
+# From MRI to Mesh: Finite Element Brain Model Creation
 
 <!-- A brief description of your exemplar, which may include an image -->
-This is a brief abstract of my exemplar, which includes a representative image.
-![Scikit Camera Image](docs/assets/readme-img.png)
+This exemplar provides a reproducible workflow for structural magnetic resonance (MR) images to be transformed into a finite element brain mesh in LS-DYNA keyword (`.k`) format. It combines image preprocessing, segmentation and meshing in one clear MRI-to-mesh workflow. It also contains optional post-processing to enable a downstream FE simulations. 
+
+![Brain strain demo](docs/assets/brain-strain-demo.gif)
 
 <!-- Author information -->
-This exemplar was developed at Imperial College London by (YOUR NAME) in
-collaboration with (RSE MENTOR) from Research Software Engineering and
-(RCDS MENTOR) from Research Computing & Data Science at the Early Career
-Researcher Institute.
+This brain mesh creation pipeline was scientifically developed by 
+Dr Mazdak Ghajari, Dr Harry Duckworth, Mr Vahid Darvish, and Ms Emily Chan, 
+all in the HEAD Lab at Imperial College London (Darvishi et al., DOI placeholder). 
 
+This exemplar was developed at Imperial College London by Ms Emily Chan in
+collaboration with Dr Miruna Serina from Research Software Engineering and
+Dr Jianliang Gao from Research Computing & Data Science at the Early Career
+Researcher Institute.
 
 <!-- Learning Outcomes. 
 Aim for 3 - 4 points that illustrate what knowledge and
@@ -37,88 +41,106 @@ skills will be gained by studying your ReCoDE exemplar. -->
 
 After completing this exemplar, students will:
 
-- Learning Outcome 1
-- Learning Outcome 2
-- Learning Outcome 3
+- **Process and visualise neuroimaging data** using FSL, a useful open-source neuroimaging software library. 
+- **Interpret the structure of an LS-DYNA mesh file**, understand how nodes, elements, parts, and model definitions. 
+- **Generate a volumetric finite element brain mesh** from an MR image! 
+- (Optional) Understand the basic requirements for **setting up an LS-DYNA simulation**, including the role of supporting files needed alongside the generated mesh.
 
 
 <!-- Audience. Think broadly as to who will benefit. -->
 ## Target Audience 🎯
+This exemplar is aimed at students and researchers in biomechanics, biomedical engineering, neurosciences, and computational modelling who want a practical experience in generating subject-specific finite element brain meshes from MR images. 
 
-Who will benefit from studying this exemplar.
+The generated FE brain mesh, together with the simulation file in the final step, will also enable FE brain simulation that can be applied to traumatic brain injury research. 
 
-
-<!-- Requirements.
-What skills and knowledge will students need before starting?
-e.g. ECRI courses, knowledge of a programming language or library...
-
-Is it a prerequisite skill or learning outcome?
-e.g. If your project uses a niche library, you could either set it as a
-requirement or make it a learning outcome above. If a learning outcome,
-you must include a relevant section that helps with learning this library.
--->
+<!-- Requirements-->
 ## Prerequisites ✅
 
 ### Academic 📚
 
-- Required skills/knowledge (e.g. programming languages, libraries, theory, courses)
+- Basic familiarity with Python, including using libaries and calling functions.
+- Basic familiarity with simple Bash commands in Jupyter notebook environment, such as navigating directories, writing shell commands, and handling files (e.g. `cd`, `cp`, `echo`).
+- A general awareness of finite element modelling is helpful, but not required.
 
 ### System 💻
 
-- System requirements (e.g. Python 3.11+, Anaconda, 50 GB disk space, etc.)
-- Hardware or HPC requirements (if any)
+- Python 3.9 and above
+- Jupyter Notebook
+- FSL v6.0.7 and above, installed and available in the working environment
+- Sufficient disk space (estimate 2GB) for intermediate image files, and generated meshes
+- Ls-PrePost or Paraview for visualising output brain mesh 
 
+<!-- Software. What languages, libraries, software you use. -->
+## Software Tools 🛠️
+
+- Programming language: Python, with some Bash commands used within Jupyter notebooks
+- FSL - FMRIB's Automated Segmentation Tool ([installation guide](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html) and [official documentation](https://fsl.fmrib.ox.ac.uk/fsl/docs/))
+- Core FSL tools: 
+    * FLIRT - FMRIB's Linear Image Registration Tool
+    * FAST - FMRIB's Automated Segmentation Tool
+    * BET - Brain Extraction Tool
+    * FSLeyes - a GUI application which is the standard 3D/4D image viewer for the FSL library, often used by neuroscientists to visualize, overlay, and analyze brain imaging data like MRI and fMRI scans.
+- [LS-Prepost](https://lsdyna.ansys.com/ls-prepost-2/) or [Paraview](https://www.paraview.org/)
 
 <!-- Quick Start Guide. Tell learners how to engage with the exemplar. -->
 ## Getting Started 🚀
 
-e.g. Step-by-step guide:
+![Step guide](docs/assets/step-guide.png)
 
-1. Start by (instruction).
-2. Visit the sections of this notebook in some particular order.
-3. Attempt exercises `1a`, `1b`, etc.
-4. Progress to advanced materials in the Github repository linked here.
-5. Compare with solutions available in the `solutions` folder.
+1. Start by fufilling the `Prerequisites`. 
+2. Organising the input data and dependencies, and setup the parameters (can use default). 
+3. Start the Image Processing step, and continue to the Image Segmentation. Visualise a few output files using `FSLeyes` to check if the segmentation went well. 
+4. Continue to the FE mesh creation step. 
+5. Continue to the mesh smoothing, and mesh refinemet step. 
+6. Done! Visualise the brain mesh in LS-PrePost, rotate and slice the brain. 
+7. (Optional) Make your FE brain mesh simulation-ready by completing the "supporting files" section. 
 
 
 <!-- Background. Tell learners about why this exemplar is useful. -->
 ## Disciplinary Background 🔬
      
-Briefly describe how this project fits in your discipline, why you chose
-to work on it, and what other disciplines may find it useful.
-
-
-<!-- Software. What languages, libraries, software you use. -->
-## Software Tools 🛠️
-
-Programming language(s), libraries, and scientific software used.
+In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
 
 
 <!-- Repository structure. Explain how your code is structured. -->
 ## Project Structure 🗂️
 
-Overview of code organisation and structure.
-
 ```
 .
-├── notebooks
-│ ├── ex1.ipynb
-├── src
-│ ├── file1.py
-│ ├── file2.cpp
-│ ├── ...
-│ └── data
-├── docs
-└── test
+├── docs/                              # Markdown documentation and guides
+│   └── assets/                        # Images and other media for the documentation
+├── notebooks/
+│   └── Brain_mesh_creation_VD_Feb2026.ipynb
+├── src/
+│   ├── subjects/
+│   │   └── <subject_name>/            # User-defined subject folder
+│   │       ├── img/
+│   │       │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
+│   │       │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input
+│   │       │       ├── aseg.nii.gz    # Automated subcortical segmentation map (labels) derived from the T1
+│   │       │       └── brain.nii.gz   # Skull-stripped T1 volume (brain tissue only, no skull/scalp)
+│   │       ├── bet/                   # Output folder for `bet` and `betsurf`
+│   │       ├── fast/                  # Output folder for `fast`
+│   │       └── output/                # Output folder for the generated brain mesh
+│   └── dependencies/
+│       ├── mesh_utils.py              # Python utilities for mesh refinement
+│       └── rs/
+│           ├── a.out                  # Executable for mesh smoothing
+│           ├── bmctk.py               # Script for mesh creation
+│           ├── look_up_table.txt      # Lookup table used during mesh creation
+│           └── material_properties.k  # FE material property file for the brain model
+├── tests/                             # Currently empty; reserved for future validation scripts
+├── mkdocs.yml                         # Configuration file for MkDocs
+├── LICENSE.md                         # Project license
+└── README.md                          # Project overview and usage instructions
 ```
 
 Code is organised into logical components:
 
-- `notebooks` for tutorials and exercises
-- `src` for core code, potentially divided into further modules
-- `data` within `src` for datasets
-- `docs` for documentation
-- `test` for testing scripts
+- `notebooks`: contains step-by-step code of this project. 
+- `src`: contains input data and dependencies. 
+- `docs`: houses documentation, guides, and supporting images. 
+- `tests`: reserved for future test scripts.
 
 
 <!-- Roadmap.
@@ -156,62 +178,51 @@ Completed tasks are marked with an x between the square brackets.
 
 ### Core 🧩
 
-- [x] Data ingestion pipeline
-    * [x] Tutorial with small data exercise
-- [x] Core analysis algorithms
-    * [x] Documentation with worked example
-- [ ] Basic visualisation tools
-    * [ ] Mini-project: "Create your first plot"
-- [ ] Results export functionality
-    * [ ] Usage tutorial with export task
-    * [ ] Short video walkthrough *(planned)*
-- [ ] Automated testing suite
-    * [ ] Debugging challenge
-- [ ] Documentation for core methods
+- [x] Install prerequisites and setup environment
+    * [x] FSL installation
+- [ ] Image processing and segmentation
+    * [ ] Does the *FAST* segmentation produce reasonable result? 
+    * [ ] Does the *BET* segmentation produce reasonable result? 
+    * [ ] Is the generated geometry file `pre_model.nii.gz` look reasonable in FSLeyes? 
+- [ ] Mesh creation and smoothing
+    * [ ] Does the generated mesh look reasonable in LS-PrePost? 
 
 ### Extensions 🔌
 
-- [ ] Advanced statistical models
-    * [ ] Example notebook with exercises
-- [ ] Interactive dashboard
-    * [ ] Exercise: Build a simple component
-- [ ] Multi-format data import/export
-    * [ ] Guide with hands-on tasks
-- [ ] Collaboration tools integration
-    * [ ] Exercise: Set up collaborative workflow
-    * [ ] Include diagram of workflow *(optional)*
-- [ ] Extended visualisation options
-    * [ ] Creative task: Design a custom plot
+(Requires deeper understanding of finite element analysis) 
 
-<!-- Data availability (remove this section if no data used) -->
-## Data 📊
-
-List datasets used with:
-
-- Licensing info
-- Where they are included (in the repo or external links)
-
+- [ ] Understand the supporting files for FE simulations using the generated mesh
+    * [ ] Material property of the brain 
+    * [ ] Centre of gravity of the brain
+    * [ ] Parts and sets of the brain model
+    * [ ] Acceleration, the mechanical loading apply to the brain model
+    * [ ] Run file, the configuration of FE simulation
 
 <!-- Best practice notes. -->
 ## Best Practice Notes 📝
 
-- Code testing and/or test examples
-- Use of continuous integration (if any)
-- Any other software development best practices
+- During image processing and segmentation steps, regularly check the intermediate outputs using [FSLeyes](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/install.html). 
 
 <!-- Estimate the time it will take for a learner to progress through the exemplar. -->
 ## Estimated Time ⏳
 
-| Task       | Time    |
-| ---------- | ------- |
-| Reading    | 3 hours |
-| Practising | 3 hours |
+| Task                      | Estimated time |
+|---------------------------|----------------|
+| Introduction              | 20 min         |
+| Environment setup         | 30 min         |
+| Input preparation         | 10 min         |
+| Image Processing          | 30 min         |
+| Image Segmentation        | 1 hour         |
+| Mesh creation             | 20 min         |
+| Mesh visualisation        | 30 min         |
+| Extension                 | 1 hour         |
+| **Total Estimated Time**  | **4.5 hours**  |
 
 
 <!-- Any references, or other resources. -->
 ## Additional Resources 🔗
 
-- Relevant sources, websites, images, AOB.
+- Placeholder when our paper has a preprint
 
 <!-- LICENCE.
 Imperial prefers BSD-3. Please update the LICENSE.md file with the current year.
