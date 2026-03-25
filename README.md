@@ -39,7 +39,7 @@ Aim for 3 - 4 points that illustrate what knowledge and
 skills will be gained by studying your ReCoDE exemplar. -->
 ## Learning Outcomes 🎓
 
-After completing this exemplar, students will:
+After completing this exemplar, ypu will be able to:
 
 - **Process and visualise neuroimaging data** using FSL, a useful open-source neuroimaging software library. 
 - **Interpret the structure of an LS-DYNA mesh file**, understand how nodes, elements, parts, and model definitions. 
@@ -49,7 +49,7 @@ After completing this exemplar, students will:
 
 <!-- Audience. Think broadly as to who will benefit. -->
 ## Target Audience 🎯
-This exemplar is aimed at students and researchers in biomechanics, biomedical engineering, neurosciences, and computational modelling who want a practical experience in generating subject-specific finite element brain meshes from MR images. 
+This exemplar is aimed at scientists and researchers in biomechanics, biomedical engineering, neurosciences, and computational modelling who want a practical experience in generating subject-specific finite element brain meshes from MR images. 
 
 The generated FE brain mesh, together with the simulation file in the final step, will also enable FE brain simulation that can be applied to traumatic brain injury research. 
 
@@ -64,6 +64,7 @@ The generated FE brain mesh, together with the simulation file in the final step
 
 ### System 💻
 
+- Python 3.9 and above
 - Jupyter Notebook
 - FSL v6.0.7 and above, installed and available in the working environment
 - Sufficient disk space (estimate 2GB) for intermediate image files, and generated meshes
@@ -87,12 +88,11 @@ The generated FE brain mesh, together with the simulation file in the final step
 ![Step guide](docs/assets/step-guide.png)
 
 1. Start by fufilling the `Prerequisites`. 
-2. Organising the input data and dependencies, and setup the parameters (can use default). 
-3. Start the Image Processing step, and continue to the Image Segmentation. Visualise a few output files using `FSLeyes` to check if the segmentation went well. 
-4. Continue to the FE mesh creation step. 
-5. Continue to the mesh smoothing, and mesh refinemet step. 
-6. Done! Visualise the brain mesh in LS-PrePost, rotate and slice the brain. 
-7. (Optional) Make your FE brain mesh simulation-ready by completing the "supporting files" section. 
+2. Start the Image Processing step, and continue to the Image Segmentation. Visualise a few output files using `FSLeyes` to check if the segmentation went well. 
+3. Continue to the FE mesh creation step. 
+4. Continue to the mesh smoothing, and mesh refinemet step. 
+5. Done! Visualise the brain mesh in LS-PrePost, rotate and slice the brain. 
+6. (Optional) Make your FE brain mesh simulation-ready by completing the "supporting files" section. 
 
 
 <!-- Background. Tell learners about why this exemplar is useful. -->
@@ -106,32 +106,37 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 
 ```
 .
-├── docs/                              # Markdown documentation and guides
-│   └── assets/                        # Images and other media for the documentation
+├── data/                              # Input data, intermediate files, and generated outputs
+│   └── subjects/
+│       └── <subject_name>/            # User-defined subject folder
+│           ├── img/
+│           │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
+│           │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input
+│           │       ├── aseg.nii.gz    # Automated segmentation label map derived from the T1 image
+│           │       └── brain.nii.gz   # Skull-stripped T1 volume containing brain tissue only
+│           ├── bet/                   # Output folder for BET
+│           ├── fast/                  # Output folder for FAST
+│           └── output/                # Output folder for the generated brain mesh and supporting files
 ├── notebooks/
 │   └── Brain_mesh_creation_VD_Feb2026.ipynb
-├── src/
-│   ├── subjects/
-│   │   └── <subject_name>/            # User-defined subject folder
-│   │       ├── img/
-│   │       │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
-│   │       │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input
-│   │       │       ├── aseg.nii.gz    # Automated subcortical segmentation map (labels) derived from the T1
-│   │       │       └── brain.nii.gz   # Skull-stripped T1 volume (brain tissue only, no skull/scalp)
-│   │       ├── bet/                   # Output folder for `bet` and `betsurf`
-│   │       ├── fast/                  # Output folder for `fast`
-│   │       └── output/                # Output folder for the generated brain mesh
-│   └── dependencies/
-│       ├── mesh_utils.py              # Python utilities for mesh refinement
+├── src/                               # Source code and supporting tools used by the workflow
+│   ├── brain_mesh_creation/           # Python package for mesh-generation utilities
+│   │   ├── __init__.py
+│   │   ├── mesh_utils.py              # Python utilities for mesh processing and refinement
+│   │   └── bmctk.py                   # Script/module for brain mesh creation
+│   └── dependencies/                  # Non-Python supporting files required by the workflow
 │       └── rs/
 │           ├── a.out                  # Executable for mesh smoothing
-│           ├── bmctk.py               # Script for mesh creation
 │           ├── look_up_table.txt      # Lookup table used during mesh creation
 │           └── material_properties.k  # FE material property file for the brain model
-├── tests/                             # Currently empty; reserved for future validation scripts
+├── docs/                              # Markdown documentation and guides
+│   └── assets/                        # Images and other media for the documentation
+├── tests/                             # Reserved for future validation and test scripts
 ├── mkdocs.yml                         # Configuration file for MkDocs
+├── pyproject.toml                     # Project metadata and dependency configuration
+├── requirements.txt                   # Optional pinned dependencies for local setup
 ├── LICENSE.md                         # Project license
-└── README.md                          # Project overview and usage instructions
+└── README.md                          # This file; project overview and usage instructions
 ```
 
 Code is organised into logical components:
@@ -177,8 +182,8 @@ Completed tasks are marked with an x between the square brackets.
 
 ### Core 🧩
 
-- [x] Install prerequisites and setup environment
-    * [x] FSL installation
+- [ ] Install prerequisites and setup environment
+    * [ ] FSL installation
 - [ ] Image processing and segmentation
     * [ ] Does the *FAST* segmentation produce reasonable result? 
     * [ ] Does the *BET* segmentation produce reasonable result? 
