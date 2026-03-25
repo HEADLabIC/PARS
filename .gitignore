@@ -1,3 +1,5 @@
+.gitignore
+.Rhistory
 # General ReCoDE ignore
 __pycache__
 *.egg-info
