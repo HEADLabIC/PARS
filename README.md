@@ -64,6 +64,7 @@ The generated FE brain mesh, together with the simulation file in the final step
 
 ### System 💻
 
+- Python 3.0 and above
 - Jupyter Notebook
 - FSL v6.0.7 and above, installed and available in the working environment
 - Sufficient disk space (estimate 2GB) for intermediate image files, and generated meshes
