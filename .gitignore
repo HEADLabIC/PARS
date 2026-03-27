@@ -1,6 +1,7 @@
 .DS_Store
 **/.DS_Store
 .Rhistory
+
 # General ReCoDE ignore
 __pycache__
 *.egg-info

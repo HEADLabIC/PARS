@@ -39,7 +39,7 @@ Aim for 3 - 4 points that illustrate what knowledge and
 skills will be gained by studying your ReCoDE exemplar. -->
 ## Learning Outcomes 🎓
 
-After completing this exemplar, ypu will be able to:
+After completing this exemplar, you will be able to:
 
 - **Process and visualise neuroimaging data** using FSL, a useful open-source neuroimaging software library. 
 - **Interpret the structure of an LS-DYNA mesh file**, understand how nodes, elements, parts, and model definitions. 
@@ -108,7 +108,7 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 .
 ├── data/                              # Input data, intermediate files, and generated outputs
 │   └── subjects/
-│       └── <subject_name>/            # User-defined subject folder
+│       └── avg-male/                  # The example subject used in the project
 │           ├── img/
 │           │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
 │           │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input

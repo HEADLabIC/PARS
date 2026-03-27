@@ -23,6 +23,7 @@ dependencies = [
     "nibabel",
     "numpy",
     "pandas",
+    "ipython-autotime",
 ]
 
 [project.optional-dependencies]

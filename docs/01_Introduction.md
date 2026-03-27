@@ -6,6 +6,10 @@ Because brain anatomy varies between individuals, a single generic brain geometr
 
 In this project, we go through the full pipeline for turning a brain scan into a subject-specific finite element (FE) mesh. Using a sample scan from a healthy subject, you will see how raw imaging data can be processed into a mesh that captures the shape of an individual brain. Once you understand the workflow, the same approach can be applied to other brain scans too — in other words, it can be used to generate a brain FE mesh for any subject with the right imaging input. The final output of this project is the FE mesh itself, which describes the brain geometry in a form ready for numerical analysis. To turn this mesh into a complete FE model for simulation, the mesh would need to be combined with additional files such as material properties, boundary conditions, and loading definitions.
 
+## Basic brain structure
+
+__TODO__
+
 ## Magnetic resonance imaging
 
 The starting point of this project is a **magnetic resonance imaging (MRI) scan** of the brain. MRI is a widely used way of imaging soft tissues inside the body, and it is especially useful for the brain because it can show anatomical detail much more clearly than many other imaging methods. Instead of looking at function or activity, here we are interested in structural MRI, which shows the shape and internal structure of the brain.
