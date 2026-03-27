@@ -56,6 +56,11 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
+  - admonition # for note box
+  - pymdownx.details # for note box
+  - attr_list # for figure caption
+  - md_in_html # for figure caption
+  - pymdownx.blocks.caption # for figure caption
 
 # Render math in mkdocs
 extra_javascript:
