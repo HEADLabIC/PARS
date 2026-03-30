@@ -3,15 +3,32 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "your_project"
+name = "brain-mesh-creation"
 version = "0.1.0"
+description = "Pipeline for brain mesh creation from structural MRI"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Emily Chan", email = "emily.chan21@imperial.ac.uk" },
+    { name = "Jianliang Gao", email = "j.gao@imperial.ac.uk" },
+    { name = "Miruna Serian", email = "m.serian@imperial.ac.uk" },
+    { name = "Vahid Darvishi" },
+    { name = "Mazdak Ghajari" },
+]
 
 dependencies = [
-    # Add runtime dependencies here
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "nibabel",
+    "numpy",
+    "pandas",
+    "ipython-autotime",
 ]
 
 [project.optional-dependencies]
 dev = [
+    "jupyter",
     "mkdocs==1.6.1",
     "mkdocs-include-markdown-plugin==7.1.5",
     "mkdocs-jupyter==0.25.1",
@@ -19,3 +36,9 @@ dev = [
     "mkdocs-material==9.6.12",
     "python-markdown-math==0.9"
 ]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
