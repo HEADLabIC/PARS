@@ -1,7 +1,7 @@
 .DS_Store
 **/.DS_Store
+.gitignore
 .Rhistory
-
 # General ReCoDE ignore
 __pycache__
 *.egg-info
