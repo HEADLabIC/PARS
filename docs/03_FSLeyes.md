@@ -25,7 +25,7 @@ At this stage, there is no need to learn every part of FSLeyes. The main aim is 
 
 ### Loading the images
 
-Once FSL has been installed, **FSLeyes** can be launched from terminal by simply typing `fsleyes`. Launch FSLeyes and load `brain_std.nii.gz` by drag the image file into FSLeyes interface. This is the anatomical image of the example subject `avg_male` registered to the MNI space, and we use it as the underlay for most of the inspection steps below. 
+Once FSL has been installed, **FSLeyes** can be launched from terminal by simply typing `fsleyes`. Launch FSLeyes and load `brain_std.nii.gz` by dragging the image file into FSLeyes interface. This is the anatomical image of the example subject `avg_male` registered to the MNI space, and we use it as the underlay for most of the inspection steps below. 
 
 For most of this page, the **orthographic view** is the most useful choice, as it allows the image to be inspected simultaneously in sagittal, coronal, and axial planes.
 
@@ -129,7 +129,7 @@ FSLeyes also provides several additional viewing modes and tools that can help r
 
 ### Exploring the 3D view
 
-FSLeyes also provides a 3D view, which can be used to inspect the overall shape of an image or overlay. This has already used for serveral images above. 
+FSLeyes also provides a 3D view, which can be used to inspect the overall shape of an image or overlay. This was already used for serveral images above. 
 
 To open the 3D display, switch from orthographic to 3D view. In this view, the image can be rotated, zoomed, and repositioned. This gives a more global impression of the structure than slice-based views, although it is usually less precise for detailed inspection.
 
