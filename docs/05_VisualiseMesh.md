@@ -105,7 +105,7 @@ The main LS-PrePost areas used here are:
 - the part display panel, where individual parts can be shown or hidden;
 - the message/command window, where loading warnings may appear.
 
-![LS-PrePost interface after loading the mesh](/assets/05_lsprepost_interface_loaded_mesh.png)
+![LS-PrePost interface after loading the mesh](assets/05_lsprepost_interface_loaded_mesh.png)
 
 ---
 
@@ -141,9 +141,9 @@ Check for:
 - no obvious missing regions;
 - expected blocky or stair-step surface.
 
-![Raw mesh full view](/assets/05_raw_mesh_full_view.png)
+![Raw mesh full view](assets/05_raw_mesh_full_view.png)
 
-![Raw mesh close-up showing voxel-like surface](/assets/05_raw_mesh_surface_closeup.png)
+![Raw mesh close-up showing voxel-like surface](assets/05_raw_mesh_surface_closeup.png)
 
 ### Smoothed mesh: `mesh_smoothed.k`
 
@@ -156,7 +156,7 @@ Check for:
 - no excessive shrinkage;
 - no obvious surface folding or distortion.
 
-![Smoothed mesh surface close-up](/assets/05_smoothed_mesh_surface_closeup.png)
+![Smoothed mesh surface close-up](assets/05_smoothed_mesh_surface_closeup.png)
 
 ### Revised mesh: `mesh_smoothed_revised.k`
 
@@ -169,11 +169,11 @@ Check for:
 - no visible penetrations or overlapping regions;
 - no unexpected holes or gaps.
 <!-- 
-![Revised mesh contact-region close-up](../assets/05_revised_mesh_contact_closeup.png)
+![Revised mesh contact-region close-up](assets/05_revised_mesh_contact_closeup.png)
 
 A before/after comparison between `mesh_smoothed.k` and `mesh_smoothed_revised.k` is useful for showing the effect of the contact correction step.
 
-![Before and after contact correction comparison](../assets/05_contact_correction_comparison.png)
+![Before and after contact correction comparison](assets/05_contact_correction_comparison.png)
  -->
 
 ---
@@ -210,7 +210,7 @@ In LS-PrePost, you will typically see two main types:
 - assigning material properties;
 - controlling visibility in LS-PrePost.
 
-![Example highlighted node set in LS-PrePost](/assets/05_mesh_highlighted_set.png)
+![Example highlighted node set in LS-PrePost](assets/05_mesh_highlighted_set.png)
 
 ---
 
