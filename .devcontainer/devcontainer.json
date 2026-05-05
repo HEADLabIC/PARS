@@ -1,0 +1,28 @@
+{
+    "name": "FSL & Python Neuroimaging",
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "postCreateCommand": "bash .devcontainer/install_fsl.sh && sudo apt-get install -y dc",
+    "forwardPorts": [8500],
+    "portsAttributes": {
+        "8500": {
+            "label": "Trame Viewer",
+            "onAutoForward": "openPreview"
+        }
+    },
+    "remoteEnv": {
+        "FSLDIR": "/workspaces/${localWorkspaceFolderBasename}/fsl",
+        "FSLOUTPUTTYPE": "NIFTI_GZ",
+        "PATH": "/workspaces/${localWorkspaceFolderBasename}/fsl/share/fsl/bin:/workspaces/${localWorkspaceFolderBasename}/fsl/bin:${containerEnv:PATH}"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/workspaces/${localWorkspaceFolderBasename}/fsl/bin/fslpython"
+            }
+        }
+    }
+}
