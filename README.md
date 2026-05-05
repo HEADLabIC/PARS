@@ -94,6 +94,14 @@ The generated FE brain mesh, together with the simulation file in the final step
 5. Done! Visualise the brain mesh in LS-PrePost, rotate and slice the brain. 
 6. (Optional) Make your FE brain mesh simulation-ready by completing the "supporting files" section. 
 
+### Try code on GitHub with Codespaces
+**Please follow the steps below to create a codespace on GitHub**
+1. Click on the green Code button -> Codespaces, and then "..." ![codespace option](docs/assets/codespaces01.png) then, "New with options". ![codespace option1](docs/assets/codespaces01.1.png)
+2. In the option "Machine type", choose **8-core 32GB RAM 64GB** or higher. ![machine type](docs/assets/codespaces02.png)
+3. Click on the green "Create codespace". ![codespace creation](docs/assets/codespaces02.1.png)
+4. Wait for about 15 minutes until the page says "Finished configuring codespace". ![codespace ready](docs/assets/codespaces03.png)
+5. Open a notebook in the directory named "notebooks", and click on "Select Kernel", then select "Python Environments...". ![kernel selection](docs/assets/codespaces04.png)
+6. Choose the "Recommended" option to run notebooks. ![base kernel](docs/assets/codespaces05.png)
 
 <!-- Background. Tell learners about why this exemplar is useful. -->
 ## Disciplinary Background 🔬
