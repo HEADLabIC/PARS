@@ -30,7 +30,7 @@ Three FreeSurfer outputs are used in this workflow: `T1.mgz`, `brain.mgz`, and `
 
 ![Input Freesurfer images: T1, brain, and aseg](assets/01_freesurfer_imgs.png)
 
-We do not run *recon-all* as part of this project for two reasons. First, it is a fully automated preprocessing step, so there is not much to demonstrate once the input scan has been given to the software. Second, it can take a long time to complete for one subject, sometimes up to 40 hours. To keep this project focused and practical, we start from pre-generated FreeSurfer outputs and use them directly in this mesh-generation pipeline. 
+We do not run *recon-all* as part of this project for two reasons. First, it is a fully automated preprocessing step, so there is not much to demonstrate once the input scan has been given to the software. Second, it can take a long time to complete for one subject, usually a few hours (sometimes up to 40 hours!). To keep this project focused and practical, we start from pre-generated FreeSurfer outputs and use them directly in this mesh-generation pipeline. 
 
 As an initial step, these files are converted from the MGZ format to NIfTI (`.nii.gz`) format using FreeSurfer’s `mri_convert` tool. NIfTI is a common neuroimaging file format and is easier to use in the processing steps that follow.
 
