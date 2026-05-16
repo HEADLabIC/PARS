@@ -4,15 +4,16 @@ import nibabel as nib
 import pyvista as pv
 
 from trame.app import get_server
-from trame.ui.vuetify import SinglePageLayout
-from trame.widgets import vuetify, vtk as vtk_widgets
+from trame.ui.vuetify3 import SinglePageLayout
+from trame.widgets import vuetify3 as vuetify
+from trame.widgets import vtk as vtk_widgets
 
 
 # -----------------------------------------------------------------------------
 # Config
 # -----------------------------------------------------------------------------
 
-DATA_DIR = Path("/workspaces/fsl_test/data/subjects/avg-male/tmp")
+DATA_DIR = Path("/workspaces/ReCoDE-brain-mesh-creation/data/subjects/avg-male/tmp")
 DEFAULT_PORT = 8500
 
 server = get_server()
@@ -99,7 +100,7 @@ with SinglePageLayout(server) as layout:
 
     with layout.toolbar:
         vuetify.VSpacer()
-        vuetify.Select(
+        vuetify.VSelect(
             label="NIfTI file",
             v_model=("selected_file", None),
             items=("file_list", []),
