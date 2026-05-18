@@ -8,9 +8,9 @@ In `02_ImageProcess.ipynb`, we generated a series of intermediate NIfTI outputs.
 
 FSLeyes can be used either from the command line or through its graphical interface. In this exercise, we use the graphical interface to inspect the outputs from FSL segmentations. Before examining those images, it is helpful to become familiar with the small set of controls that will be used repeatedly throughout this page.
 
-![Annotated FSLeyes interface showing the main controls used in this page.](assets/03_fsleyes_interface_annotated.png)
+[![Annotated FSLeyes interface showing the main controls used in this page.](assets/03_fsleyes_interface_annotated.png)](assets/03_fsleyes_interface_annotated.png)
 
-_TODO annotate the image_
+_(Click the image to open a larger version)_
 
 The most useful parts of the interface for this exercise are:
 
@@ -21,7 +21,6 @@ The most useful parts of the interface for this exercise are:
 - **Opacity control**: helps compare an overlay with the anatomical underlay
 - **Location/value readout**: can be useful when inspecting label images
 
-At this stage, there is no need to learn every part of FSLeyes. The main aim is simply to become comfortable loading images, toggling overlays, and adjusting their appearance so that the outputs are easier to interpret.
 
 ### Loading the images
 
