@@ -1,4 +1,4 @@
-# Hands-on: View neuroimages with FSLeyes
+# Image Inspection: Checking Processed Outputs Before Meshing
 
 In `02_ImageProcess.ipynb`, we generated a series of intermediate NIfTI outputs. In this page, we use **FSLeyes** to inspect these outputs visually. The goal is not only to become familiar with the software interface, but also to understand what each processing step has produced and to check that the final brain geometry is suitable for downstream FE mesh generation.
 

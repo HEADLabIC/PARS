@@ -1,4 +1,4 @@
-# Introduction
+# Background: Brain Anatomy, MRI, and Input Images
 
 Finite element (FE) methods can be used to simulate how structures deform under loading. In brain biomechanics, brain FE models are useful because they allow us to estimate brain deformation in situations where direct measurement is difficult or impossible. To do this, we first need a geometric representation of the brain that can be discretised into elements for computation.
 

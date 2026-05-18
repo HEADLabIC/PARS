@@ -1,4 +1,4 @@
-# Brain Simulation
+# Extension: Preparing the Mesh for LS-DYNA Simulation
 
 ## Overview
 
@@ -74,11 +74,9 @@ The acceleration curves are shown below.
 
 _The figure shows linear acceleration in the x, y, and z directions, and rotational acceleration in the x, y, and z directions._
 
-Users should replace or modify this loading file when running simulations with their own head impact data.
-
 ---
 
-## 3. Example LS-DYNA include structure
+## 3. Example LS-DYNA _include_ structure
 
 A master LS-DYNA keyword file can be used to organise the mesh, material definitions, part definitions, set definitions, and loading file.
 
@@ -138,7 +136,7 @@ data/subjects/<subject_name>/simulation/
 
 ## 4. Example simulation output
 
-The following animation shows an example brain strain simulation output, visualised in LS-PrePost.
+The following animation shows an example simulation output, change of maximum principal strain, visualised in LS-PrePost.
 
 ![Example brain strain simulation output](assets/brain-strain-demo.gif)
 
