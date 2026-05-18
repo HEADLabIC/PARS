@@ -27,7 +27,7 @@ This exemplar provides a reproducible workflow for structural magnetic resonance
 <!-- Author information -->
 This brain mesh creation pipeline was scientifically developed by 
 Dr Mazdak Ghajari, Dr Harry Duckworth, Mr Vahid Darvish, and Ms Emily Chan, 
-all in the HEAD Lab at Imperial College London (Darvishi et al., DOI placeholder). 
+all in the HEAD Lab at Imperial College London. 
 
 This exemplar was developed at Imperial College London by Ms Emily Chan in
 collaboration with Dr Miruna Serina from Research Software Engineering and
@@ -74,7 +74,7 @@ The generated FE brain mesh, together with the simulation file in the final step
 ## Software Tools 🛠️
 
 - Programming language: Python, with some Bash commands used within Jupyter notebooks
-- FSL - FMRIB's Automated Segmentation Tool ([installation guide](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html) and [official documentation](https://fsl.fmrib.ox.ac.uk/fsl/docs/))
+- FSL - FMRIB's Automated Segmentation Tool ([installation guide](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html), and **configure the environment variable** as instructed [here](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/configuration.html)
 - Core FSL tools: 
     * FLIRT - FMRIB's Linear Image Registration Tool
     * FAST - FMRIB's Automated Segmentation Tool
