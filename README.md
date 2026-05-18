@@ -108,7 +108,7 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 .
 ├── data/                              # Input data, intermediate files, and generated outputs
 │   └── subjects/
-│       └── avg-male/                  # The example subject used in the project
+│       └── sub0045/                  # The example subject used in the project
 │           ├── img/
 │           │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
 │           │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input
@@ -117,8 +117,15 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 │           ├── bet/                   # Output folder for BET
 │           ├── fast/                  # Output folder for FAST
 │           └── output/                # Output folder for the generated brain mesh and supporting files
+├── docs/                              # Markdown documentation and guides
+│   ├── 01_Introduction.md
+│   ├── 03_FSLeyes.md
+│   ├── 05_VisualiseMesh.md
+│   ├── 06_Simulation.md
+│   └── assets/                        # Images and other media for the documentation
 ├── notebooks/
-│   └── Brain_mesh_creation_VD_Feb2026.ipynb
+│   ├── 02_ImageProcess.ipynb
+│   └── 04_MeshCreation.ipynb
 ├── src/                               # Source code and supporting tools used by the workflow
 │   ├── brain_mesh_creation/           # Python package for mesh-generation utilities
 │   │   ├── __init__.py
@@ -129,8 +136,6 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 │           ├── a.out                  # Executable for mesh smoothing
 │           ├── look_up_table.txt      # Lookup table used during mesh creation
 │           └── material_properties.k  # FE material property file for the brain model
-├── docs/                              # Markdown documentation and guides
-│   └── assets/                        # Images and other media for the documentation
 ├── tests/                             # Reserved for future validation and test scripts
 ├── mkdocs.yml                         # Configuration file for MkDocs
 ├── pyproject.toml                     # Project metadata and dependency configuration
