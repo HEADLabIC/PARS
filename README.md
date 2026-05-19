@@ -122,7 +122,7 @@ There are two options available to view images.
   ```
       - modify output filename `output_T1.png` according to your need.
       - modify the path to a specific imaging file `data/subjects/sub0045/img/fs_seg/T1.nii.gz` as needed.
-      - modigy the colour map immediately after `-cm` as needed. More colour map codes can be found at https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/command_line.html
+      - modify the colour map immediately after `-cm` as needed. More colour map codes can be found at https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/command_line.html
       
 <!-- Background. Tell learners about why this exemplar is useful. -->
 ## Disciplinary Background 🔬
