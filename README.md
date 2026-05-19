@@ -27,7 +27,8 @@ This exemplar provides a reproducible workflow for structural magnetic resonance
 <!-- Author information -->
 This brain mesh creation pipeline was scientifically developed by 
 Dr Mazdak Ghajari, Dr Harry Duckworth, Mr Vahid Darvish, and Ms Emily Chan, 
-all in the HEAD Lab at Imperial College London. 
+all in the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/) 
+at Imperial College London. 
 
 This exemplar was developed at Imperial College London by Ms Emily Chan in
 collaboration with Dr Miruna Serina from Research Software Engineering and
@@ -48,10 +49,17 @@ After completing this exemplar, you will be able to:
 
 
 <!-- Audience. Think broadly as to who will benefit. -->
-## Target Audience 🎯
+<!-- ## Target Audience 🎯
 This exemplar is aimed at scientists and researchers in biomechanics, biomedical engineering, neurosciences, and computational modelling who want a practical experience in generating subject-specific finite element brain meshes from MR images. 
 
 The generated FE brain mesh, together with the simulation file in the final step, will also enable FE brain simulation that can be applied to traumatic brain injury research. 
+ -->
+
+<!-- Background. Tell learners about why this exemplar is useful. -->
+## Disciplinary Background 🔬
+
+In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
+
 
 <!-- Requirements-->
 ## Prerequisites ✅
@@ -74,31 +82,38 @@ The generated FE brain mesh, together with the simulation file in the final step
 ## Software Tools 🛠️
 
 - Programming language: Python, with some Bash commands used within Jupyter notebooks
-- FSL - FMRIB's Automated Segmentation Tool ([installation guide](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html), and **configure the environment variable** as instructed [here](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/configuration.html)
-- Core FSL tools: 
-    * FLIRT - FMRIB's Linear Image Registration Tool
-    * FAST - FMRIB's Automated Segmentation Tool
-    * BET - Brain Extraction Tool
-    * FSLeyes - a GUI application which is the standard 3D/4D image viewer for the FSL library, often used by neuroscientists to visualize, overlay, and analyze brain imaging data like MRI and fMRI scans.
-- [LS-Prepost](https://lsdyna.ansys.com/ls-prepost-2/) or [Paraview](https://www.paraview.org/)
+- [LS-Prepost](https://lsdyna.ansys.com/ls-prepost-2/)
+- FSL - FMRIB Software Library: [installation guide](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html)
+
+  FSL must be correctly configured before running the notebooks. In particular, the `FSLDIR` environment variable must be set, and the FSL command-line tools must be available from your terminal.
+
+  After installing FSL, follow the official [FSL configuration instructions](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/configuration.html). For `bash` or `zsh`, this usually means adding the following lines to your shell configuration file, such as `~/.bashrc`, `~/.bash_profile`, or `~/.zshrc`:
+
+  ```bash
+  # FSL Setup
+  FSLDIR=~/fsl
+  PATH=${FSLDIR}/share/fsl/bin:${PATH}
+  export FSLDIR PATH
+  . ${FSLDIR}/etc/fslconf/fsl.sh
+  ```
+
+
 
 <!-- Quick Start Guide. Tell learners how to engage with the exemplar. -->
 ## Getting Started 🚀
 
 ![Step guide](docs/assets/step-guide.png)
 
-1. Start by fufilling the `Prerequisites`. 
-2. Start the Image Processing step, and continue to the Image Segmentation. Visualise a few output files using `FSLeyes` to check if the segmentation went well. 
-3. Continue to the FE mesh creation step. 
-4. Continue to the mesh smoothing, and mesh refinemet step. 
-5. Done! Visualise the brain mesh in LS-PrePost, rotate and slice the brain. 
-6. (Optional) Make your FE brain mesh simulation-ready by completing the "supporting files" section. 
+The repository is intended to be followed in the same order as the pages in the [online documentation](https://imperialcollegelondon.github.io/ReCoDE-brain-mesh-creation/).
 
+The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can either be downloaded and run locally, or run directly in GitHub Codespaces using the instructions in [Try code on GitHub with Codespaces](#try-code-on-github-with-codespaces).
 
-<!-- Background. Tell learners about why this exemplar is useful. -->
-## Disciplinary Background 🔬
-     
-In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
+1. Fulfil the [Prerequisites](#prerequisites).
+2. Run `02_ImageProcess.ipynb` to complete image processing and image segmentation.
+3. Inspect selected image-processing outputs in `FSLeyes` to check whether the segmentation worked as expected.
+4. Run `04_MeshCreation.ipynb` to generate, smooth, and refine the finite element brain mesh.
+5. Inspect the generated brain mesh in LS-PrePost by rotating, slicing, and checking the model geometry.
+6. Optional: make the generated mesh simulation-ready by completing the supporting-files section.
 
 
 <!-- Repository structure. Explain how your code is structured. -->
@@ -117,15 +132,18 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 │           ├── bet/                   # Output folder for BET
 │           ├── fast/                  # Output folder for FAST
 │           └── output/                # Output folder for the generated brain mesh and supporting files
-├── docs/                              # Markdown documentation and guides
-│   ├── 01_Introduction.md
-│   ├── 03_FSLeyes.md
-│   ├── 05_VisualiseMesh.md
-│   ├── 06_Simulation.md
-│   └── assets/                        # Images and other media for the documentation
-├── notebooks/
-│   ├── 02_ImageProcess.ipynb
-│   └── 04_MeshCreation.ipynb
+│ 
+├── docs/                               # Markdown documentation and visual guides
+│   ├── 01_Introduction.md              # Background, inputs, and preprocessing overview
+│   ├── 03_FSLeyes.md                   # Guide for inspecting image-processing outputs
+│   ├── 05_VisualiseMesh.md             # Guide for inspecting generated mesh outputs
+│   ├── 06_Simulation.md                # Notes on preparing meshes for FE simulation
+│   └── assets/                         # Images and media used in the documentation
+│ 
+├── notebooks/                          # Main executable workflow notebooks
+│   ├── 02_ImageProcess.ipynb           # Code for MRI preprocessing and image segmentation workflow
+│   └── 04_MeshCreation.ipynb           # Code for Mesh generation, smoothing, and refinement workflow
+│ 
 ├── src/                               # Source code and supporting tools used by the workflow
 │   ├── brain_mesh_creation/           # Python package for mesh-generation utilities
 │   │   ├── __init__.py
@@ -136,6 +154,7 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 │           ├── a.out                  # Executable for mesh smoothing
 │           ├── look_up_table.txt      # Lookup table used during mesh creation
 │           └── material_properties.k  # FE material property file for the brain model
+│ 
 ├── tests/                             # Reserved for future validation and test scripts
 ├── mkdocs.yml                         # Configuration file for MkDocs
 ├── pyproject.toml                     # Project metadata and dependency configuration
@@ -144,13 +163,7 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 └── README.md                          # This file; project overview and usage instructions
 ```
 
-Code is organised into logical components:
-
-- `notebooks`: contains step-by-step code of this project. 
-- `src`: contains input data and dependencies. 
-- `docs`: houses documentation, guides, and supporting images. 
-- `tests`: reserved for future test scripts.
-
+The main workflow is implemented in the two notebooks in `notebooks/`, while reusable helper functions and supporting files are kept under `src/`. The `docs/` folder contains the documentation website source, and `data/subjects/sub0045/` provides the example subject used throughout the tutorial.
 
 <!-- Roadmap.
 Identify the project core (a minimal working example). This
@@ -185,10 +198,11 @@ Completed tasks are marked with an x between the square brackets.
 -->
 ## Roadmap 🗺️
 
-### Core 🧩
-
+<!-- ### Core 🧩 -->
+<!-- 
 - [ ] Install prerequisites and setup environment
     * [ ] FSL installation
+    * [ ] LS-Prepost installation
 - [ ] Image processing and segmentation
     * [ ] Does the *FAST* segmentation produce reasonable result? 
     * [ ] Does the *BET* segmentation produce reasonable result? 
@@ -205,7 +219,8 @@ Completed tasks are marked with an x between the square brackets.
     * [ ] Centre of gravity of the brain
     * [ ] Parts and sets of the brain model
     * [ ] Acceleration, the mechanical loading apply to the brain model
-    * [ ] Run file, the configuration of FE simulation
+    * [ ] Run file, the configuration of FE simulation -->
+
 
 <!-- Best practice notes. -->
 ## Best Practice Notes 📝
@@ -217,25 +232,21 @@ Completed tasks are marked with an x between the square brackets.
 
 | Task                      | Estimated time |
 |---------------------------|----------------|
-| Introduction              | 20 min         |
+| Introduction              | 10 min         |
 | Environment setup         | 30 min         |
-| Input preparation         | 10 min         |
-| Image Processing          | 30 min         |
-| Image Segmentation        | 1 hour         |
-| Mesh creation             | 20 min         |
-| Mesh visualisation        | 30 min         |
-| Extension                 | 1 hour         |
-| **Total Estimated Time**  | **4.5 hours**  |
+| Image processing          | 1 hour         |
+| Image visualisation       | 1 hour         |
+| Mesh creation             | 1 hour         |
+| Mesh visualisation        | 1 hour         |
+| Extension                 | 30 min         |
+| **Total Estimated Time**  | **5 hours**    |
 
 
 <!-- Any references, or other resources. -->
-## Additional Resources 🔗
+<!-- ## Additional Resources 🔗
 
-- Placeholder when our paper has a preprint
+- Placeholder when our paper has a preprint -->
 
-<!-- LICENCE.
-Imperial prefers BSD-3. Please update the LICENSE.md file with the current year.
--->
 ## Licence 📄
 
 This project is licensed under the [BSD-3-Clause license](LICENSE.md).
