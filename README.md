@@ -103,6 +103,27 @@ The generated FE brain mesh, together with the simulation file in the final step
 5. Open a notebook in the directory named "notebooks", and click on "Select Kernel", then select "Python Environments...". ![kernel selection](docs/assets/codespaces04.png)
 6. Choose the "Recommended" option to run notebooks. ![base kernel](docs/assets/codespaces05.png)
 
+### View images
+
+There are two options available to view images.
+
+- Option1 (maybe slow) : Use Trame to view images
+  - Find trame_nii_viewer.py and modify the line (16) `/workspaces/ReCoDE-brain-mesh-creation/data/subjects/avg-male/tmp` to the imaging files directory you want to view. Then save the updated trame_nii_viewer.py.
+  - in a Codespace terminal, run the following command
+  ```
+  fslpython trame_nii_viewer.py
+  ```
+  A new tab will be opened on your web browser to view images. (**be aware**: if it is slow to load images, please refresh the Trame viewer tab)
+  
+- Option2 (fast): Use `fsleyes render` command to view images
+  - In Codespace terminal, run the following command
+  ```
+  fsleyes render --outfile output_T1.png data/subjects/sub0045/img/fs_seg/T1.nii.gz -cm brain_colours_nih
+  ```
+      - modify output filename `output_T1.png` according to your need.
+      - modify the path to a specific imaging file `data/subjects/sub0045/img/fs_seg/T1.nii.gz` as needed.
+      - modigy the colour map immediately after `-cm` as needed. More colour map codes can be found at https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/command_line.html
+      
 <!-- Background. Tell learners about why this exemplar is useful. -->
 ## Disciplinary Background 🔬
      
