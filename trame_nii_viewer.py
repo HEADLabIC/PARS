@@ -13,7 +13,7 @@ from trame.widgets import vtk as vtk_widgets
 # Config
 # -----------------------------------------------------------------------------
 
-DATA_DIR = Path("/workspaces/ReCoDE-brain-mesh-creation/data/subjects/avg-male/tmp")
+DATA_DIR = Path("/workspaces/ReCoDE-brain-mesh-creation/data/subjects/sub0045/img/fs_seg")
 DEFAULT_PORT = 8500
 
 server = get_server()
@@ -23,7 +23,11 @@ state.file_list = []
 state.selected_file = None
 state.status = "Ready"
 
-plotter = pv.Plotter(off_screen=True)
+state.colormap = "hsv"
+state.colormaps = ["hsv", "viridis", "gray", "magma", "jet"]
+
+#plotter = pv.Plotter(off_screen=True)
+plotter = pv.Plotter(shape=(2, 2), off_screen=True, border=False)
 plotter.set_background("black")
 
 
@@ -37,8 +41,7 @@ def list_nii_files():
     if files and not state.selected_file:
         state.selected_file = files[0].name
 
-
-def load_volume(filename):
+def load_volume(filename, c_map="hsv"):
     path = DATA_DIR / filename
     if not path.exists():
         state.status = f"File not found: {path}"
@@ -46,39 +49,49 @@ def load_volume(filename):
 
     img = nib.load(str(path))
     data = img.get_fdata()
-
-    # Basic cleanup
     data = np.nan_to_num(data)
 
-    # Clear existing scene
     plotter.clear()
-    plotter.set_background("black")
-
-    # Create PyVista image data
+    
+    # Create the grid
     grid = pv.ImageData()
-    grid.dimensions = np.array(data.shape) + 1
-    grid.spacing = (1, 1, 1)
+    grid.dimensions = np.array(data.shape)
+    grid.spacing = img.header.get_zooms()[:3]
     grid.origin = (0, 0, 0)
-    grid.cell_data["values"] = data.flatten(order="F")
+    grid.point_data["values"] = data.flatten(order="F")
 
-    # Choose a threshold for visualization
-    vmax = float(np.max(data))
-    vmin = float(np.min(data))
+    # Generate the 3 orthogonal slices at the center of the brain
+    center = grid.center
+    slices = grid.slice_orthogonal(x=center[0], y=center[1], z=center[2])
 
-    if vmax == vmin:
-        state.status = f"No intensity variation in {filename}"
-        ctrl.view_update()
-        return
+    # --- Subplot 0: Sagittal (YZ Plane) ---
+    plotter.subplot(0, 0)
+    plotter.add_mesh(slices[0], cmap=c_map) # X-slice
+    plotter.view_yz()
+    plotter.camera.parallel_projection = True
+    plotter.reset_camera()
 
-    threshold_value = vmin + 0.3 * (vmax - vmin)
-    surface = grid.threshold(threshold_value)
+    # --- Subplot 1: Axial (XY Plane) ---
+    plotter.subplot(0, 1)
+    plotter.add_mesh(slices[2], cmap=c_map) # Z-slice
+    plotter.view_xy()
+    plotter.camera.parallel_projection = True
+    plotter.reset_camera()
 
+    # --- Subplot 2: Coronal (XZ Plane) ---
+    plotter.subplot(1, 0)
+    plotter.add_mesh(slices[1], cmap=c_map) # Y-slice
+    plotter.view_xz()
+    plotter.camera.parallel_projection = True
+    plotter.reset_camera()
+
+    # --- Subplot 3: 3D Combined View ---
+    plotter.subplot(1, 1)
+    plotter.add_mesh(slices, cmap=c_map, opacity=0.8)
     plotter.add_axes()
-    plotter.add_mesh(surface, cmap="viridis", opacity=0.5)
     plotter.reset_camera()
 
     state.status = f"Loaded: {filename}"
-
 
 def update_view():
     ctrl.view_update()
@@ -87,7 +100,7 @@ def update_view():
 @state.change("selected_file")
 def on_file_change(selected_file, **kwargs):
     if selected_file:
-        load_volume(selected_file)
+        load_volume(selected_file, "rainbow")
         update_view()
 
 
@@ -100,13 +113,22 @@ with SinglePageLayout(server) as layout:
 
     with layout.toolbar:
         vuetify.VSpacer()
+        # Colormap Selector
+        vuetify.VSelect(
+            label="Colormap",
+            v_model=("colormap", "hsv"),
+            items=("colormaps", []),
+            dense=True,
+            style="max-width: 150px",
+            classes="mx-2"
+        )
+        # File Selector
         vuetify.VSelect(
             label="NIfTI file",
             v_model=("selected_file", None),
             items=("file_list", []),
             dense=True,
-            outlined=True,
-            style="max-width: 400px",
+            style="max-width: 300px",
         )
 
     with layout.content:
@@ -119,7 +141,7 @@ with SinglePageLayout(server) as layout:
                 classes="ma-2",
             )
             vtk_widgets.VtkRemoteView(plotter.ren_win, ref="view")
-
+    
 
 ctrl.view_update = lambda **kwargs: None
 
@@ -127,7 +149,7 @@ ctrl.view_update = lambda **kwargs: None
 def main():
     list_nii_files()
     if state.selected_file:
-        load_volume(state.selected_file)
+        load_volume(state.selected_file, "hsv")
     server.start(port=DEFAULT_PORT, host="0.0.0.0")
 
 
