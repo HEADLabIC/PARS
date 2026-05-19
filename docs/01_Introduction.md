@@ -1,4 +1,4 @@
-# Introduction
+# Background: Brain Anatomy, MRI, and Input Images
 
 Finite element (FE) methods can be used to simulate how structures deform under loading. In brain biomechanics, brain FE models are useful because they allow us to estimate brain deformation in situations where direct measurement is difficult or impossible. To do this, we first need a geometric representation of the brain that can be discretised into elements for computation.
 
@@ -8,7 +8,23 @@ In this project, we go through the full pipeline for turning a brain scan into a
 
 ## Basic brain structure
 
-__TODO__
+The brain can be thought of as several connected tissue compartments rather than one single solid structure. The main bulk of the brain is made up of grey matter and white matter. Grey matter includes the cerebral cortex and several deeper structures such as the thalamus, caudate, putamen, hippocampus, and amygdala. White matter contains fibre pathways that connect different brain regions, including the corpus callosum, which links the left and right cerebral hemispheres.
+
+The brain also contains fluid-filled spaces called ventricles. These include the lateral ventricles, third ventricle, and fourth ventricle. The ventricles contain cerebrospinal fluid (CSF), which also surrounds the outside of the brain in the subarachnoid space. CSF is important because it separates the soft brain tissue from the skull and forms part of the brain–skull interface.
+
+![Basic brain anatomy](assets/01_brain_anatomy.png)
+
+_Figure 1. Basic brain anatomy. Image source: [Everyday health](https://www.everydayhealth.com/healthy-aging/understanding-brain-anatomy/)._
+
+Several protective membranes surround and support the brain. The pia mater is a thin membrane closely attached to the brain surface, while the dura mater is a tougher outer membrane lining the inside of the skull. Some parts of the dura fold inward to form internal partitions. The falx separates the left and right cerebral hemispheres, and the tentorium separates the cerebrum from the cerebellum.
+
+![Layers of the brain](assets/01_brain_layers.png)
+
+_Figure 2. Layers of the brain. Image source: Cleveland Clinic, [Brain: Anatomy, Function, and Conditions](https://my.clevelandclinic.org/health/body/22638-brain)._
+
+The brain sits inside the skull, with skin forming the outer head surface. For finite element modelling, these outer structures are also useful because they help define the full head geometry rather than only the brain itself. The skull provides the rigid outer boundary, while the skin defines the external head shape.
+
+In this project, the final model represents many of these anatomical compartments as separate labelled parts. The detailed internal brain labels mainly come from the FreeSurfer anatomical segmentation, while FSL-derived masks are used to complete the CSF, skull, and skin regions. Additional structures such as the falx, tentorium, dura, and pia are included later during model generation so that the final mesh better represents the main anatomical boundaries needed for head impact simulation.
 
 ## Magnetic resonance imaging
 
@@ -30,7 +46,7 @@ Three FreeSurfer outputs are used in this workflow: `T1.mgz`, `brain.mgz`, and `
 
 ![Input Freesurfer images: T1, brain, and aseg](assets/01_freesurfer_imgs.png)
 
-We do not run *recon-all* as part of this project for two reasons. First, it is a fully automated preprocessing step, so there is not much to demonstrate once the input scan has been given to the software. Second, it can take a long time to complete for one subject, sometimes up to 40 hours. To keep this project focused and practical, we start from pre-generated FreeSurfer outputs and use them directly in this mesh-generation pipeline. 
+We do not run *recon-all* as part of this project for two reasons. First, it is a fully automated preprocessing step, so there is not much to demonstrate once the input scan has been given to the software. Second, it can take a long time to complete for one subject, usually a few hours (sometimes up to 40 hours!). To keep this project focused and practical, we start from pre-generated FreeSurfer outputs and use them directly in this mesh-generation pipeline. 
 
 As an initial step, these files are converted from the MGZ format to NIfTI (`.nii.gz`) format using FreeSurfer’s `mri_convert` tool. NIfTI is a common neuroimaging file format and is easier to use in the processing steps that follow.
 

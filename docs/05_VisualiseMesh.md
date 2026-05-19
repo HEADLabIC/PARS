@@ -1,4 +1,4 @@
-# Visualising the Brain Mesh
+# Mesh Inspection: Checking Mesh Outputs Before Simulation
 
 ## Overview
 

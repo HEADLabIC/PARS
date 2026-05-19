@@ -1,4 +1,4 @@
-# Hands-on: View neuroimages with FSLeyes
+# Image Inspection: Checking Processed Outputs Before Meshing
 
 In `02_ImageProcess.ipynb`, we generated a series of intermediate NIfTI outputs. In this page, we use **FSLeyes** to inspect these outputs visually. The goal is not only to become familiar with the software interface, but also to understand what each processing step has produced and to check that the final brain geometry is suitable for downstream FE mesh generation.
 
@@ -8,9 +8,9 @@ In `02_ImageProcess.ipynb`, we generated a series of intermediate NIfTI outputs.
 
 FSLeyes can be used either from the command line or through its graphical interface. In this exercise, we use the graphical interface to inspect the outputs from FSL segmentations. Before examining those images, it is helpful to become familiar with the small set of controls that will be used repeatedly throughout this page.
 
-![Annotated FSLeyes interface showing the main controls used in this page.](assets/03_fsleyes_interface_annotated.png)
+[![Annotated FSLeyes interface showing the main controls used in this page.](assets/03_fsleyes_interface_annotated.png)](assets/03_fsleyes_interface_annotated.png)
 
-_TODO annotate the image_
+_(Click the image to open a larger version)_
 
 The most useful parts of the interface for this exercise are:
 
@@ -21,7 +21,6 @@ The most useful parts of the interface for this exercise are:
 - **Opacity control**: helps compare an overlay with the anatomical underlay
 - **Location/value readout**: can be useful when inspecting label images
 
-At this stage, there is no need to learn every part of FSLeyes. The main aim is simply to become comfortable loading images, toggling overlays, and adjusting their appearance so that the outputs are easier to interpret.
 
 ### Loading the images
 
@@ -163,7 +162,7 @@ At this stage, the goal is not to carry out detailed anatomical annotation, but 
 Once the final premodel image has been checked visually, the workflow can proceed to the next stage of mesh generation. Although this inspection step is simple, it is important: checking the geometry at this stage can help identify problems early, before later and more computationally expensive processing begins.
 
 
-## Reference and additional resources: 
+## Reference and further reading: 
 - [FSLeyes documentations](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/index.html)
 - Did you know that you can use FSLeyes from Jupyter? [The `fsleyes` package](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/fsleyes_notebook.html)
 
