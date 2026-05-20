@@ -35,6 +35,12 @@ collaboration with Dr Miruna Serina from Research Software Engineering and
 Dr Jianliang Gao from Research Computing & Data Science at the Early Career
 Researcher Institute.
 
+<!-- Background. Tell learners about why this exemplar is useful. -->
+## Disciplinary Background 🔬
+
+In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
+
+
 <!-- Learning Outcomes. 
 Aim for 3 - 4 points that illustrate what knowledge and
 skills will be gained by studying your ReCoDE exemplar. -->
@@ -55,12 +61,6 @@ This exemplar is aimed at scientists and researchers in biomechanics, biomedical
 The generated FE brain mesh, together with the simulation file in the final step, will also enable FE brain simulation that can be applied to traumatic brain injury research. 
  -->
 
-<!-- Background. Tell learners about why this exemplar is useful. -->
-## Disciplinary Background 🔬
-
-In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
-
-
 <!-- Requirements-->
 ## Prerequisites ✅
 
@@ -74,7 +74,7 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 
 - Python 3.9 and above
 - Jupyter Notebook
-- FSL v6.0.7 and above, installed and available in the working environment
+- FSL v6.0.7 and above, installed (requires ~20GB disk space) and available in the working environment 
 - Sufficient disk space (estimate 2GB) for intermediate image files, and generated meshes
 - Ls-PrePost or Paraview for visualising output brain mesh 
 
@@ -102,11 +102,13 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 <!-- Quick Start Guide. Tell learners how to engage with the exemplar. -->
 ## Getting Started 🚀
 
-![Step guide](docs/assets/step-guide.png)
+<a href="docs/assets/step-guide.png">
+  <img src="docs/assets/step-guide.png" alt="Step guide" width="400">
+</a>
 
 The repository is intended to be followed in the same order as the pages in the [online documentation](https://imperialcollegelondon.github.io/ReCoDE-brain-mesh-creation/).
 
-The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can either be downloaded and run locally, or run directly in GitHub Codespaces using the instructions in [Try code on GitHub with Codespaces](#try-code-on-github-with-codespaces).
+The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can either be downloaded and run locally, or run directly in GitHub Codespaces using the instructions in [Try the notebooks on GitHub Codespaces](#try-the-notebooks-on-github-codespaces).
 
 1. Fulfil the [Prerequisites](#prerequisites).
 2. Run `02_ImageProcess.ipynb` to complete image processing and image segmentation.
@@ -116,18 +118,28 @@ The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can e
 6. Optional: make the generated mesh simulation-ready by completing the supporting-files section.
 
 
-### Try code on GitHub with Codespaces
-**Please follow the steps below to create a codespace on GitHub**
-1. Click on the green Code button -> Codespaces, and then "..." ![codespace option](docs/assets/codespaces01.png) then, "New with options". ![codespace option1](docs/assets/codespaces01.1.png)
-2. In the option "Machine type", choose **8-core 32GB RAM 64GB** or higher. ![machine type](docs/assets/codespaces02.png)
-3. Click on the green "Create codespace". ![codespace creation](docs/assets/codespaces02.1.png)
-4. Wait for about 15 minutes until the page says "Finished configuring codespace". ![codespace ready](docs/assets/codespaces03.png)
-5. Open a notebook in the directory named "notebooks", and click on "Select Kernel", then select "Python Environments...". ![kernel selection](docs/assets/codespaces04.png)
-6. Choose the "Recommended" option to run notebooks. ![base kernel](docs/assets/codespaces05.png)
+### Try the notebooks on GitHub Codespaces
 
-### View images
+You can run the notebooks directly in GitHub Codespaces without setting up the environment locally. The steps are shown in the image below.
 
-There are two options available to view images.
+1. In the repository, click the green Code* button, open the *Codespaces* tab, and click the three-dot menu *...*.
+2. Select *New with options...* from the menu.
+3. Under *Machine type*, choose *8-core, 32 GB RAM, 64 GB storage* or higher.
+4. Review the selected settings, then click *Create codespace*.
+5. Wait for GitHub Codespaces to launch VS Code in the browser and finish configuring the environment.
+6. Open the notebook you want to run from the `notebooks/`. Click *Select Kernel*, then choose *Python Environments...*.
+7. Select the *Recommended* Python environment, for example the `base` environment, to run the notebook. 
+
+<p align="center">
+  <a href="docs/assets/codespaces-collage.png">
+    <img src="docs/assets/codespaces-collage.png" alt="Step-by-step guide for setting up a GitHub Codespace" width="900">
+  </a>
+</p>
+
+
+### View neuroimages in Codespaces
+
+There are two options available to view neuroimages.
 
 - Option1 (maybe slow) : Use Trame to view images
   - Find trame_nii_viewer.py and modify the line (16) `/workspaces/ReCoDE-brain-mesh-creation/data/subjects/avg-male/tmp` to the imaging files directory you want to view. Then save the updated trame_nii_viewer.py.
@@ -149,11 +161,6 @@ There are two options available to view images.
     - modify the path to a specific imaging file `data/subjects/sub0045/img/fs_seg/T1.nii.gz` as needed.
     - modify the colour map immediately after `-cm` as needed. More colour map codes can be found at [fsleyes command](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/command_line.html)
       
-<!-- Background. Tell learners about why this exemplar is useful. -->
-## Disciplinary Background 🔬
-     
-In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
-
 
 <!-- Repository structure. Explain how your code is structured. -->
 ## Project Structure 🗂️
@@ -237,8 +244,8 @@ Completed tasks are marked with an x between the square brackets.
 -->
 ## Roadmap 🗺️
 
-<!-- ### Core 🧩 -->
-<!-- 
+### Core 🧩
+
 - [ ] Install prerequisites and setup environment
     * [ ] FSL installation
     * [ ] LS-Prepost installation
@@ -258,13 +265,13 @@ Completed tasks are marked with an x between the square brackets.
     * [ ] Centre of gravity of the brain
     * [ ] Parts and sets of the brain model
     * [ ] Acceleration, the mechanical loading apply to the brain model
-    * [ ] Run file, the configuration of FE simulation -->
+    * [ ] Run file, the configuration of FE simulation 
 
 
 <!-- Best practice notes. -->
 ## Best Practice Notes 📝
 
-- During image processing and segmentation steps, regularly check the intermediate outputs using [FSLeyes](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/install.html). 
+- During image processing and segmentation steps, regularly check the intermediate outputs using [FSLeyes](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/install.html) if you are running the project locally, or follow [this](#view-neuroimages-in-codespaces) if you are using with Codespaces. 
 
 <!-- Estimate the time it will take for a learner to progress through the exemplar. -->
 ## Estimated Time ⏳
