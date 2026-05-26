@@ -122,15 +122,22 @@ The main step-by-step materials are stored together in `docs/`. This folder cont
 .
 ├── data/                              # Input data, intermediate files, and generated outputs
 │   └── subjects/
-│       └── sub0045/                   # The example subject used in the project
+│       ├── sub0045/                   # Clean example subject for users to run through the workflow
+│       │   └── img/
+│       │       └── fs_seg/            # FreeSurfer-derived segmentation inputs
+│       │           ├── T1.nii.gz      # T1-weighted structural MRI, used as input
+│       │           ├── aseg.nii.gz    # Automated segmentation label map derived from the T1 image
+│       │           └── brain.nii.gz   # Skull-stripped T1 volume containing brain tissue only
+│       │
+│       └── sub0045_example/           # Completed example subject with intermediate and final outputs
 │           ├── img/
 │           │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
-│           │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input
-│           │       ├── aseg.nii.gz    # Automated segmentation label map derived from the T1 image
-│           │       └── brain.nii.gz   # Skull-stripped T1 volume containing brain tissue only
-│           ├── bet/                   # Output folder for BET
-│           ├── fast/                  # Output folder for FAST
-│           └── output/                # Output folder for the generated brain mesh and supporting files
+│           │       ├── T1.nii.gz
+│           │       ├── aseg.nii.gz
+│           │       └── brain.nii.gz
+│           ├── bet/                   # Example BET outputs
+│           ├── fast/                  # Example FAST outputs
+│           └── output/                # Example generated brain mesh and supporting files
 │ 
 ├── docs/                              # Markdown documentation and visual guides
 │   ├── 01_Introduction.md             # Background, inputs, and preprocessing overview
@@ -159,8 +166,8 @@ The main step-by-step materials are stored together in `docs/`. This folder cont
 ├── LICENSE.md                         # Project license
 └── README.md                          # This file; project overview and usage instructions
 ```
+The repository includes two versions of the subject. The workflow notebooks are set up to run on `sub0045` by default. The `sub0045_example` folder is provided for reference and comparison. You should use the `sub0045` folder when following the notebooks.
 
-The main workflow is implemented in the two notebooks in `notebooks/`, while reusable helper functions and supporting files are kept under `src/`. The `docs/` folder contains the documentation website source, and `data/subjects/sub0045/` provides the example subject used throughout the tutorial.
 
 <!-- Roadmap.
 Identify the project core (a minimal working example). This
