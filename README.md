@@ -202,7 +202,7 @@ There are two options available to view neuroimages.
 │           ├── look_up_table.txt      # Lookup table used during mesh creation
 │           └── material_properties.k  # FE material property file for the brain model
 │ 
-├── tests/                             # Reserved for future validation and test scripts
+├── trame_nii_viewer.py                # Interactive web viewer script for inspecting NIfTIs
 ├── mkdocs.yml                         # Configuration file for MkDocs
 ├── pyproject.toml                     # Project metadata and dependency configuration
 ├── requirements.txt                   # Optional pinned dependencies for local setup
