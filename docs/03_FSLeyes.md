@@ -162,7 +162,7 @@ At this stage, the goal is not to carry out detailed anatomical annotation, but 
 Once the final premodel image has been checked visually, the workflow can proceed to the next stage of mesh generation. Although this inspection step is simple, it is important: checking the geometry at this stage can help identify problems early, before later and more computationally expensive processing begins.
 
 
-## Reference and further reading: 
+## Further reading
 - [FSLeyes documentations](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/index.html)
 - Did you know that you can use FSLeyes from Jupyter? [The `fsleyes` package](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/fsleyes_notebook.html)
 

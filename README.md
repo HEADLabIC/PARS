@@ -25,15 +25,17 @@ This exemplar provides a reproducible workflow for structural magnetic resonance
 ![Brain strain demo](docs/assets/brain-strain-demo.gif)
 
 <!-- Author information -->
-This brain mesh creation pipeline was scientifically developed by 
-Dr Mazdak Ghajari, Dr Harry Duckworth, Mr Vahid Darvish, and Ms Emily Chan, 
-all in the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/) 
-at Imperial College London. 
+This brain mesh creation pipeline was scientifically developed by Dr Mazdak Ghajari, Dr Harry Duckworth, Mr Vahid Darvish, and Ms Emily Chan, all in the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/) at Imperial College London. 
 
-This exemplar was developed at Imperial College London by Ms Emily Chan in
-collaboration with Dr Miruna Serina from Research Software Engineering and
-Dr Jianliang Gao from Research Computing & Data Science at the Early Career
-Researcher Institute.
+This exemplar was developed at Imperial College London by Ms Emily Chan in collaboration with Dr Miruna Serina from Research Software Engineering and Dr Jianliang Gao from Research Computing & Data Science at the Early Career Researcher Institute.
+
+With suitable MRI-derived inputs, this pipeline allows users to turn an individual's brain anatomy into a subject-specific finite element mesh.
+
+<!-- Background. Tell learners about why this exemplar is useful. -->
+## Disciplinary Background 🔬
+
+In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
+
 
 <!-- Learning Outcomes. 
 Aim for 3 - 4 points that illustrate what knowledge and
@@ -44,7 +46,7 @@ After completing this exemplar, you will be able to:
 
 - **Process and visualise neuroimaging data** using FSL, a useful open-source neuroimaging software library. 
 - **Interpret the structure of an LS-DYNA mesh file**, understand how nodes, elements, parts, and model definitions. 
-- **Generate a volumetric finite element brain mesh** from an MR image! 
+- **Generate a subject-specific volumetric finite element brain mesh** from structural MRI-derived inputs.
 - (Optional) Understand the basic requirements for **setting up an LS-DYNA simulation**, including the role of supporting files needed alongside the generated mesh.
 
 
@@ -54,12 +56,6 @@ This exemplar is aimed at scientists and researchers in biomechanics, biomedical
 
 The generated FE brain mesh, together with the simulation file in the final step, will also enable FE brain simulation that can be applied to traumatic brain injury research. 
  -->
-
-<!-- Background. Tell learners about why this exemplar is useful. -->
-## Disciplinary Background 🔬
-
-In brain biomechanics research, subject-specific anatomical models are often generated from structural MRI data and converted into finite element meshes that can be used to simulate tissue deformation under mechanical loading. These models are widely used traumatic brain injury (TBI) research, where understanding how anatomy influences brain strain can help interpret injury mechanisms and improve predictive modelling. At the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/), researchers have used the mesh generation pipeline to generate hundreds of brain FE models, enabling large-scale FE simulations in TBI research, particularly how anatomical differences of the brain affects injury. 
-
 
 <!-- Requirements-->
 ## Prerequisites ✅
@@ -74,16 +70,16 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 
 - Python 3.9 and above
 - Jupyter Notebook
-- FSL v6.0.7 and above, installed and available in the working environment
+- FSL v6.0.7 and above, installed (requires ~20GB disk space) and configured properly
 - Sufficient disk space (estimate 2GB) for intermediate image files, and generated meshes
-- Ls-PrePost or Paraview for visualising output brain mesh 
+- Ls-PrePost for visualising output brain mesh 
 
 <!-- Software. What languages, libraries, software you use. -->
 ## Software Tools 🛠️
 
-- Programming language: Python, with some Bash commands used within Jupyter notebooks
-- [LS-Prepost](https://lsdyna.ansys.com/ls-prepost-2/)
-- FSL - FMRIB Software Library: [installation guide](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html)
+- Programming language: Python, with some Bash commands used within Jupyter notebooks. 
+- [LS-Prepost](https://lsdyna.ansys.com/ls-prepost-2/): a GUI tool for pre- and post-processing of finite element models. 
+- [FSL - FMRIB Software Library](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html): a library for brain imaging data analysis. 
 
   FSL must be correctly configured before running the notebooks. In particular, the `FSLDIR` environment variable must be set, and the FSL command-line tools must be available from your terminal.
 
@@ -102,7 +98,9 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 <!-- Quick Start Guide. Tell learners how to engage with the exemplar. -->
 ## Getting Started 🚀
 
-![Step guide](docs/assets/step-guide.png)
+<a href="docs/assets/step-guide.png">
+  <img src="docs/assets/step-guide.png" alt="Step guide" width="400">
+</a>
 
 The main step-by-step materials are stored together in `docs/`. This folder contains both the explanatory Markdown pages and the executable notebooks used in the MRI-to-mesh pipeline.
 
@@ -114,6 +112,51 @@ The main step-by-step materials are stored together in `docs/`. This folder cont
 6. Follow `05_VisualiseMesh.md` to inspect the generated brain mesh in LS-PrePost by rotating, slicing, and checking the model geometry.
 7. Optional: follow `06_Simulation.md` to prepare supporting files for downstream finite element simulation.
 
+Apart from running the notebooks in your local environment, they can also be run directly in GitHub Codespaces using the instructions in [Try code on GitHub with Codespaces](#try-code-on-github-with-codespaces).
+
+### Try the notebooks on GitHub Codespaces
+
+You can run the notebooks directly in GitHub Codespaces without setting up the environment locally. The steps are shown in the image below.
+
+1. In the repository, click the green Code* button, open the *Codespaces* tab, and click the three-dot menu *...*.
+2. Select *New with options...* from the menu.
+3. Under *Machine type*, choose *8-core, 32 GB RAM, 64 GB storage* or higher (this requires signing up to [GitHub Student Developer Pack](https://education.github.com/pack) if you have not already done so).
+4. Review the selected settings, then click *Create codespace*.
+5. Wait for GitHub Codespaces to launch VS Code in the browser and finish configuring the environment.
+6. Open the notebook you want to run from the `notebooks/`. Click *Select Kernel*, then choose *Python Environments...*.
+7. Select the *Recommended* Python environment, for example the `base` environment, to run the notebook. 
+
+<p align="center">
+  <a href="docs/assets/codespaces-collage.png">
+    <img src="docs/assets/codespaces-collage.png" alt="Step-by-step guide for setting up a GitHub Codespace" width="900">
+  </a>
+</p>
+
+
+### View neuroimages in Codespaces
+
+There are two options available to view neuroimages.
+
+- Option1 (maybe slow) : Use Trame to view images
+  - Find trame_nii_viewer.py and modify the line (16) `/workspaces/ReCoDE-brain-mesh-creation/data/subjects/avg-male/tmp` to the imaging files directory you want to view. Then save the updated trame_nii_viewer.py.
+  - in a Codespace terminal, run the following command
+  ```
+  fslpython trame_nii_viewer.py
+  ```
+  A new tab will be opened on your web browser to view images. (**be aware**: if it is slow to load images, please refresh the Trame viewer tab)
+  
+- Option2 (fast): Use `fsleyes render` command to view images
+  - In Codespace terminal, run the following command
+  
+  ```
+  fsleyes render --outfile output_T1.png data/subjects/sub0045/img/fs_seg/T1.nii.gz -cm brain_colours_nih
+  ```
+  
+  
+    - Modify the output filename `output_T1.png` as needed. This will be the exported PNG image.
+    - Modify the input file path `data/subjects/sub0045/img/fs_seg/T1.nii.gz`i f you want to render another NIfTI file.
+    - Modify `-cm brain_colours_nih` if you want to use a different colourmap. More colourmap codes can be found at [fsleyes command](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/command_line.html)
+      
 
 <!-- Repository structure. Explain how your code is structured. -->
 ## Project Structure 🗂️
@@ -229,7 +272,7 @@ Completed tasks are marked with an x between the square brackets.
 <!-- Best practice notes. -->
 ## Best Practice Notes 📝
 
-- During image processing and segmentation steps, regularly check the intermediate outputs using [FSLeyes](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/install.html). 
+- During image processing and segmentation steps, regularly check the intermediate outputs using [FSLeyes](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/install.html) if you are running the project locally, or follow [this](#view-neuroimages-in-codespaces) if you are using with Codespaces. 
 
 <!-- Estimate the time it will take for a learner to progress through the exemplar. -->
 ## Estimated Time ⏳
