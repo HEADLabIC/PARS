@@ -25,15 +25,11 @@ This exemplar provides a reproducible workflow for structural magnetic resonance
 ![Brain strain demo](docs/assets/brain-strain-demo.gif)
 
 <!-- Author information -->
-This brain mesh creation pipeline was scientifically developed by 
-Dr Mazdak Ghajari, Dr Harry Duckworth, Mr Vahid Darvish, and Ms Emily Chan, 
-all in the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/) 
-at Imperial College London. 
+This brain mesh creation pipeline was scientifically developed by Dr Mazdak Ghajari, Dr Harry Duckworth, Mr Vahid Darvish, and Ms Emily Chan, all in the [HEAD Lab](https://www.imperial.ac.uk/human-experience-analysis-design/) at Imperial College London. 
 
-This exemplar was developed at Imperial College London by Ms Emily Chan in
-collaboration with Dr Miruna Serina from Research Software Engineering and
-Dr Jianliang Gao from Research Computing & Data Science at the Early Career
-Researcher Institute.
+This exemplar was developed at Imperial College London by Ms Emily Chan in collaboration with Dr Miruna Serina from Research Software Engineering and Dr Jianliang Gao from Research Computing & Data Science at the Early Career Researcher Institute.
+
+With suitable MRI-derived inputs, this pipeline allows users to turn an individual's brain anatomy into a subject-specific finite element mesh.
 
 <!-- Background. Tell learners about why this exemplar is useful. -->
 ## Disciplinary Background 🔬
@@ -50,7 +46,7 @@ After completing this exemplar, you will be able to:
 
 - **Process and visualise neuroimaging data** using FSL, a useful open-source neuroimaging software library. 
 - **Interpret the structure of an LS-DYNA mesh file**, understand how nodes, elements, parts, and model definitions. 
-- **Generate a volumetric finite element brain mesh** from an MR image! 
+- **Generate a subject-specific volumetric finite element brain mesh** from structural MRI-derived inputs.
 - (Optional) Understand the basic requirements for **setting up an LS-DYNA simulation**, including the role of supporting files needed alongside the generated mesh.
 
 
@@ -74,16 +70,16 @@ The generated FE brain mesh, together with the simulation file in the final step
 
 - Python 3.9 and above
 - Jupyter Notebook
-- FSL v6.0.7 and above, installed (requires ~20GB disk space) and available in the working environment 
+- FSL v6.0.7 and above, installed (requires ~20GB disk space) and configured properly
 - Sufficient disk space (estimate 2GB) for intermediate image files, and generated meshes
-- Ls-PrePost or Paraview for visualising output brain mesh 
+- Ls-PrePost for visualising output brain mesh 
 
 <!-- Software. What languages, libraries, software you use. -->
 ## Software Tools 🛠️
 
-- Programming language: Python, with some Bash commands used within Jupyter notebooks
-- [LS-Prepost](https://lsdyna.ansys.com/ls-prepost-2/)
-- FSL - FMRIB Software Library: [installation guide](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html)
+- Programming language: Python, with some Bash commands used within Jupyter notebooks. 
+- [LS-Prepost](https://lsdyna.ansys.com/ls-prepost-2/): a GUI tool for pre- and post-processing of finite element models. 
+- [FSL - FMRIB Software Library](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/index.html): a library for brain imaging data analysis. 
 
   FSL must be correctly configured before running the notebooks. In particular, the `FSLDIR` environment variable must be set, and the FSL command-line tools must be available from your terminal.
 
@@ -106,17 +102,17 @@ The generated FE brain mesh, together with the simulation file in the final step
   <img src="docs/assets/step-guide.png" alt="Step guide" width="400">
 </a>
 
-The repository is intended to be followed in the same order as the pages in the [online documentation](https://imperialcollegelondon.github.io/ReCoDE-brain-mesh-creation/).
-
-The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can either be downloaded and run locally, or run directly in GitHub Codespaces using the instructions in [Try the notebooks on GitHub Codespaces](#try-the-notebooks-on-github-codespaces).
+The main step-by-step materials are stored together in `docs/`. This folder contains both the explanatory Markdown pages and the executable notebooks used in the MRI-to-mesh pipeline.
 
 1. Fulfil the [Prerequisites](#prerequisites).
-2. Run `02_ImageProcess.ipynb` to complete image processing and image segmentation.
-3. Inspect selected image-processing outputs in `FSLeyes` to check whether the segmentation worked as expected.
-4. Run `04_MeshCreation.ipynb` to generate, smooth, and refine the finite element brain mesh.
-5. Inspect the generated brain mesh in LS-PrePost by rotating, slicing, and checking the model geometry.
-6. Optional: make the generated mesh simulation-ready by completing the supporting-files section.
+2. Follow `01_Introduction.md` for background information, required inputs, and the expected folder structure.
+3. Run `02_ImageProcess.ipynb` to complete image processing and image segmentation.
+4. Follow `03_FSLeyes.md` to inspect selected image-processing outputs in FSLeyes and check whether the segmentation worked as expected.
+5. Run `04_MeshCreation.ipynb` to generate, smooth, and refine the finite element brain mesh.
+6. Follow `05_VisualiseMesh.md` to inspect the generated brain mesh in LS-PrePost by rotating, slicing, and checking the model geometry.
+7. Optional: follow `06_Simulation.md` to prepare supporting files for downstream finite element simulation.
 
+Apart from running the notebooks in your local environment, they can also be run directly in GitHub Codespaces using the instructions in [Try code on GitHub with Codespaces](#try-code-on-github-with-codespaces).
 
 ### Try the notebooks on GitHub Codespaces
 
@@ -124,7 +120,7 @@ You can run the notebooks directly in GitHub Codespaces without setting up the e
 
 1. In the repository, click the green Code* button, open the *Codespaces* tab, and click the three-dot menu *...*.
 2. Select *New with options...* from the menu.
-3. Under *Machine type*, choose *8-core, 32 GB RAM, 64 GB storage* or higher (this requires signing up to [GitHub Student Developer Pack](https://education.github.com/pack) if you have not done so).
+3. Under *Machine type*, choose *8-core, 32 GB RAM, 64 GB storage* or higher (this requires signing up to [GitHub Student Developer Pack](https://education.github.com/pack) if you have not already done so).
 4. Review the selected settings, then click *Create codespace*.
 5. Wait for GitHub Codespaces to launch VS Code in the browser and finish configuring the environment.
 6. Open the notebook you want to run from the `notebooks/`. Click *Select Kernel*, then choose *Python Environments...*.
@@ -169,27 +165,32 @@ There are two options available to view neuroimages.
 .
 ├── data/                              # Input data, intermediate files, and generated outputs
 │   └── subjects/
-│       └── sub0045/                  # The example subject used in the project
+│       ├── sub0045/                   # Clean example subject for users to run through the workflow
+│       │   └── img/
+│       │       └── fs_seg/            # FreeSurfer-derived segmentation inputs
+│       │           ├── T1.nii.gz      # T1-weighted structural MRI, used as input
+│       │           ├── aseg.nii.gz    # Automated segmentation label map derived from the T1 image
+│       │           └── brain.nii.gz   # Skull-stripped T1 volume containing brain tissue only
+│       │
+│       └── sub0045_example/           # Completed example subject with intermediate and final outputs
 │           ├── img/
 │           │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
-│           │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input
-│           │       ├── aseg.nii.gz    # Automated segmentation label map derived from the T1 image
-│           │       └── brain.nii.gz   # Skull-stripped T1 volume containing brain tissue only
-│           ├── bet/                   # Output folder for BET
-│           ├── fast/                  # Output folder for FAST
-│           └── output/                # Output folder for the generated brain mesh and supporting files
+│           │       ├── T1.nii.gz
+│           │       ├── aseg.nii.gz
+│           │       └── brain.nii.gz
+│           ├── bet/                   # Example BET outputs
+│           ├── fast/                  # Example FAST outputs
+│           └── output/                # Example generated brain mesh and supporting files
 │ 
-├── docs/                               # Markdown documentation and visual guides
-│   ├── 01_Introduction.md              # Background, inputs, and preprocessing overview
-│   ├── 03_FSLeyes.md                   # Guide for inspecting image-processing outputs
-│   ├── 05_VisualiseMesh.md             # Guide for inspecting generated mesh outputs
-│   ├── 06_Simulation.md                # Notes on preparing meshes for FE simulation
-│   └── assets/                         # Images and media used in the documentation
-│ 
-├── notebooks/                          # Main executable workflow notebooks
-│   ├── 02_ImageProcess.ipynb           # Code for MRI preprocessing and image segmentation workflow
-│   └── 04_MeshCreation.ipynb           # Code for Mesh generation, smoothing, and refinement workflow
-│ 
+├── docs/                              # Markdown documentation and visual guides
+│   ├── 01_Introduction.md             # Background, inputs, and preprocessing overview
+│   ├── 02_ImageProcess.ipynb          # Code for MRI preprocessing and image segmentation workflow
+│   ├── 03_FSLeyes.md                  # Guide for inspecting image-processing outputs
+│   ├── 04_MeshCreation.ipynb          # Code for Mesh generation, smoothing, and refinement workflow
+│   ├── 05_VisualiseMesh.md            # Guide for inspecting generated mesh outputs
+│   ├── 06_Simulation.md               # Notes on preparing meshes for FE simulation
+│   └── assets/                        # Images and media used in the documentation
+│
 ├── src/                               # Source code and supporting tools used by the workflow
 │   ├── brain_mesh_creation/           # Python package for mesh-generation utilities
 │   │   ├── __init__.py
@@ -208,8 +209,8 @@ There are two options available to view neuroimages.
 ├── LICENSE.md                         # Project license
 └── README.md                          # This file; project overview and usage instructions
 ```
+The repository includes two versions of the subject. The workflow notebooks are set up to run on `sub0045` by default. The `sub0045_example` folder is provided for reference and comparison. You should use the `sub0045` folder when following the notebooks.
 
-The main workflow is implemented in the two notebooks in `notebooks/`, while reusable helper functions and supporting files are kept under `src/`. The `docs/` folder contains the documentation website source, and `data/subjects/sub0045/` provides the example subject used throughout the tutorial.
 
 <!-- Roadmap.
 Identify the project core (a minimal working example). This
@@ -265,7 +266,7 @@ Completed tasks are marked with an x between the square brackets.
     * [ ] Centre of gravity of the brain
     * [ ] Parts and sets of the brain model
     * [ ] Acceleration, the mechanical loading apply to the brain model
-    * [ ] Run file, the configuration of FE simulation 
+    * [ ] Run file, the configuration of FE simulation
 
 
 <!-- Best practice notes. -->
