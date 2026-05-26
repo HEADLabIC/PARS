@@ -104,16 +104,15 @@ In brain biomechanics research, subject-specific anatomical models are often gen
 
 ![Step guide](docs/assets/step-guide.png)
 
-The repository is intended to be followed in the same order as the pages in the [online documentation](https://imperialcollegelondon.github.io/ReCoDE-brain-mesh-creation/).
-
-The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can either be downloaded and run locally, or run directly in GitHub Codespaces using the instructions in [Try code on GitHub with Codespaces](#try-code-on-github-with-codespaces).
+The main step-by-step materials are stored together in `docs/`. This folder contains both the explanatory Markdown pages and the executable notebooks used in the MRI-to-mesh pipeline.
 
 1. Fulfil the [Prerequisites](#prerequisites).
-2. Run `02_ImageProcess.ipynb` to complete image processing and image segmentation.
-3. Inspect selected image-processing outputs in `FSLeyes` to check whether the segmentation worked as expected.
-4. Run `04_MeshCreation.ipynb` to generate, smooth, and refine the finite element brain mesh.
-5. Inspect the generated brain mesh in LS-PrePost by rotating, slicing, and checking the model geometry.
-6. Optional: make the generated mesh simulation-ready by completing the supporting-files section.
+2. Follow `01_Introduction.md` for background information, required inputs, and the expected folder structure.
+3. Run `02_ImageProcess.ipynb` to complete image processing and image segmentation.
+4. Follow `03_FSLeyes.md` to inspect selected image-processing outputs in FSLeyes and check whether the segmentation worked as expected.
+5. Run `04_MeshCreation.ipynb` to generate, smooth, and refine the finite element brain mesh.
+6. Follow `05_VisualiseMesh.md` to inspect the generated brain mesh in LS-PrePost by rotating, slicing, and checking the model geometry.
+7. Optional: follow `06_Simulation.md` to prepare supporting files for downstream finite element simulation.
 
 
 <!-- Repository structure. Explain how your code is structured. -->
@@ -123,7 +122,7 @@ The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can e
 .
 ├── data/                              # Input data, intermediate files, and generated outputs
 │   └── subjects/
-│       └── sub0045/                  # The example subject used in the project
+│       └── sub0045/                   # The example subject used in the project
 │           ├── img/
 │           │   └── fs_seg/            # FreeSurfer-derived segmentation inputs
 │           │       ├── T1.nii.gz      # T1-weighted structural MRI, used as input
@@ -133,17 +132,15 @@ The two notebooks in `notebooks/` form the main MRI-to-mesh workflow. They can e
 │           ├── fast/                  # Output folder for FAST
 │           └── output/                # Output folder for the generated brain mesh and supporting files
 │ 
-├── docs/                               # Markdown documentation and visual guides
-│   ├── 01_Introduction.md              # Background, inputs, and preprocessing overview
-│   ├── 03_FSLeyes.md                   # Guide for inspecting image-processing outputs
-│   ├── 05_VisualiseMesh.md             # Guide for inspecting generated mesh outputs
-│   ├── 06_Simulation.md                # Notes on preparing meshes for FE simulation
-│   └── assets/                         # Images and media used in the documentation
-│ 
-├── notebooks/                          # Main executable workflow notebooks
-│   ├── 02_ImageProcess.ipynb           # Code for MRI preprocessing and image segmentation workflow
-│   └── 04_MeshCreation.ipynb           # Code for Mesh generation, smoothing, and refinement workflow
-│ 
+├── docs/                              # Markdown documentation and visual guides
+│   ├── 01_Introduction.md             # Background, inputs, and preprocessing overview
+│   ├── 02_ImageProcess.ipynb          # Code for MRI preprocessing and image segmentation workflow
+│   ├── 03_FSLeyes.md                  # Guide for inspecting image-processing outputs
+│   ├── 04_MeshCreation.ipynb          # Code for Mesh generation, smoothing, and refinement workflow
+│   ├── 05_VisualiseMesh.md            # Guide for inspecting generated mesh outputs
+│   ├── 06_Simulation.md               # Notes on preparing meshes for FE simulation
+│   └── assets/                        # Images and media used in the documentation
+│
 ├── src/                               # Source code and supporting tools used by the workflow
 │   ├── brain_mesh_creation/           # Python package for mesh-generation utilities
 │   │   ├── __init__.py
@@ -198,8 +195,8 @@ Completed tasks are marked with an x between the square brackets.
 -->
 ## Roadmap 🗺️
 
-<!-- ### Core 🧩 -->
-<!-- 
+### Core 🧩
+
 - [ ] Install prerequisites and setup environment
     * [ ] FSL installation
     * [ ] LS-Prepost installation
@@ -219,7 +216,7 @@ Completed tasks are marked with an x between the square brackets.
     * [ ] Centre of gravity of the brain
     * [ ] Parts and sets of the brain model
     * [ ] Acceleration, the mechanical loading apply to the brain model
-    * [ ] Run file, the configuration of FE simulation -->
+    * [ ] Run file, the configuration of FE simulation
 
 
 <!-- Best practice notes. -->
