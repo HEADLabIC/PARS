@@ -124,7 +124,7 @@ You can run the notebooks directly in GitHub Codespaces without setting up the e
 
 1. In the repository, click the green Code* button, open the *Codespaces* tab, and click the three-dot menu *...*.
 2. Select *New with options...* from the menu.
-3. Under *Machine type*, choose *8-core, 32 GB RAM, 64 GB storage* or higher.
+3. Under *Machine type*, choose *8-core, 32 GB RAM, 64 GB storage* or higher (this requires signing up to [GitHub Student Developer Pack](https://education.github.com/pack) if you have not done so).
 4. Review the selected settings, then click *Create codespace*.
 5. Wait for GitHub Codespaces to launch VS Code in the browser and finish configuring the environment.
 6. Open the notebook you want to run from the `notebooks/`. Click *Select Kernel*, then choose *Python Environments...*.
@@ -157,9 +157,9 @@ There are two options available to view neuroimages.
   ```
   
   
-    - modify output filename `output_T1.png` according to your need.
-    - modify the path to a specific imaging file `data/subjects/sub0045/img/fs_seg/T1.nii.gz` as needed.
-    - modify the colour map immediately after `-cm` as needed. More colour map codes can be found at [fsleyes command](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/command_line.html)
+    - Modify the output filename `output_T1.png` as needed. This will be the exported PNG image.
+    - Modify the input file path `data/subjects/sub0045/img/fs_seg/T1.nii.gz`i f you want to render another NIfTI file.
+    - Modify `-cm brain_colours_nih` if you want to use a different colourmap. More colourmap codes can be found at [fsleyes command](https://open.oxcin.ox.ac.uk/pages/fsl/fsleyes/fsleyes/userdoc/command_line.html)
       
 
 <!-- Repository structure. Explain how your code is structured. -->
