@@ -98,9 +98,11 @@ The generated FE brain mesh, together with the simulation file in the final step
 <!-- Quick Start Guide. Tell learners how to engage with the exemplar. -->
 ## Getting Started 🚀
 
-<a href="docs/assets/step-guide.png">
-  <img src="docs/assets/step-guide.png" alt="Step guide" width="400">
-</a>
+<p align="center">
+  <a href="docs/assets/step-guide.png">
+    <img src="docs/assets/step-guide.png" alt="Step guide" width="700">
+  </a>
+</p>
 
 The main step-by-step materials are stored together in `docs/`. This folder contains both the explanatory Markdown pages and the executable notebooks used in the MRI-to-mesh pipeline.
 
@@ -118,7 +120,7 @@ Apart from running the notebooks in your local environment, they can also be run
 
 You can run the notebooks directly in GitHub Codespaces without setting up the environment locally. The steps are shown in the image below.
 
-1. In the repository, click the green Code* button, open the *Codespaces* tab, and click the three-dot menu *...*.
+1. In the repository, click the green Code* button, open the *Codespaces* tab, and click the three-dot *"..."* menu.
 2. Select *New with options...* from the menu.
 3. Under *Machine type*, choose *8-core, 32 GB RAM, 64 GB storage* or higher (this requires signing up to [GitHub Student Developer Pack](https://education.github.com/pack) if you have not already done so).
 4. Review the selected settings, then click *Create codespace*.
@@ -139,19 +141,17 @@ There are two options available to view neuroimages.
 
 - Option1 (maybe slow) : Use Trame to view images
   - Find trame_nii_viewer.py and modify the line (16) `/workspaces/ReCoDE-brain-mesh-creation/data/subjects/avg-male/tmp` to the imaging files directory you want to view. Then save the updated trame_nii_viewer.py.
-  - in a Codespace terminal, run the following command
+  - in a Codespace terminal, run the following command:
   ```
   fslpython trame_nii_viewer.py
   ```
   A new tab will be opened on your web browser to view images. (**be aware**: if it is slow to load images, please refresh the Trame viewer tab)
   
 - Option2 (fast): Use `fsleyes render` command to view images
-  - In Codespace terminal, run the following command
-  
+  - In Codespace terminal, run the following command:
   ```
   fsleyes render --outfile output_T1.png data/subjects/sub0045/img/fs_seg/T1.nii.gz -cm brain_colours_nih
   ```
-  
   
     - Modify the output filename `output_T1.png` as needed. This will be the exported PNG image.
     - Modify the input file path `data/subjects/sub0045/img/fs_seg/T1.nii.gz`i f you want to render another NIfTI file.
