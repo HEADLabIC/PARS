@@ -1,0 +1,25 @@
+cff-version: 1.0.0
+message: "If you use PARS in your research, please cite the software using the information below."
+
+# PLACEHOLDER only, wait for the preprint doi
+title: "PARS"
+authors:
+  - family-names: "Chan"
+    given-names: "Emily Yik Kwan"
+
+repository-code: "https://github.com/HEADLabIC/PARS"
+
+preferred-citation:
+  type: article
+  title: "PARS: [full manuscript title]"
+  authors:
+    - family-names: "[Surname]"
+      given-names: "[Given names]"
+    - family-names: "[Surname]"
+      given-names: "[Given names]"
+  year: 2026
+  volume: 1
+  issue: 1
+  start: 1
+  end: 10
+  doi: "10.xxxx/xxxxx"
