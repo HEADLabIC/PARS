@@ -1,34 +1,32 @@
-cff-version: 1.0.0
-message: "If you use PARS in your research, please cite the software using the information below."
+cff-version: 1.2.0
+message: "If you use PARS, please cite the associated paper below."
 
-# PLACEHOLDER only, wait for the preprint doi
 title: "PARS"
+type: software
+
 authors:
-  - family-names: "Chan"
-    given-names: "Emily Yik Kwan"
+
+* family-names: "Chan"
+  given-names: "Emily Yik Kwan"
 
 repository-code: "https://github.com/HEADLabIC/PARS"
 
 preferred-citation:
-  type: article
-  title: "PARS: an automated, open-source pipeline for subject-specific
-             finite element head modelling from MRI"
-  authors:
-    - family-names: "[Darvishi"
-      given-names: "Vahid"
-    - family-names: "Chan"
-      given-names: "Emily Yik Kwan"
-    - family-names: "Duckworth"
-      given-names: "Harry"
-    - family-names: "Parker"
-      given-names: "Thomas D."
-    - family-names: "Sharp"
-      given-names: "David J."
-    - family-names: "Ghajari"
-      given-names: "Mazdak"
-  year: 2026
-  volume: 1
-  issue: 1
-  start: 1
-  end: 10
-  doi: "10.xxxx/xxxxx"
+type: article
+title: >-
+PARS: an automated, open-source pipeline for subject-specific
+finite element head modelling from MRI
+authors:
+- family-names: "Darvishi"
+  given-names: "Vahid"
+- family-names: "Chan"
+  given-names: "Emily Yik Kwan"
+- family-names: "Duckworth"
+  given-names: "Harry"
+- family-names: "Parker"
+  given-names: "Thomas D."
+- family-names: "Sharp"
+  given-names: "David J."
+- family-names: "Ghajari"
+  given-names: "Mazdak"
+year: 2026
