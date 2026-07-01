@@ -49,7 +49,7 @@ g++ -O3 MeshSmoothing.cpp -o a.out
 It is invoked as
 `a.out <in.k> <out.k> <iterations> <jacobianThresh> <skull_dt_ns> <brain_dt_ns> <gridSpacing_mm>`
 (the smoothing parameter λ = 0.3 is compiled in). See
-[How PARS works → Smoothing](workflows.md#mesh-smoothing-and-the-stable-timestep).
+<!-- [How PARS works → Smoothing](workflows.md#mesh-smoothing-and-the-stable-timestep). -->
 
 ### Bundled resources
 

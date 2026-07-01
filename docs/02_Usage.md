@@ -1,7 +1,7 @@
 # Usage: Running PARS
 
-This page is the practical, end-to-end recipe for generating a head model. For the *why*
-behind each stage, see **[How PARS works](workflows.md)**.
+This page is the practical, end-to-end recipe for generating a head model. 
+<!-- For the *why* behind each stage, see **[How PARS works](workflows.md)**. -->
 
 ## Inputs
 
@@ -38,7 +38,7 @@ PARS. Three files are required:
 ## Configure
 
 Set the directories and per-subject options at the top of the
-[Image processing](02_ImageProcess.ipynb) notebook:
+[Image processing](../notebooks/02_ImageProcess.ipynb) notebook:
 
 | Variable | Meaning |
 |----------|---------|
@@ -48,24 +48,12 @@ Set the directories and per-subject options at the top of the
 | `mesh_size` | target element size in mm (1.0 / 1.5 / 2.0) |
 | `threshold_filter`, `skull_privacy_percentage` | SUSAN denoising / anonymisation |
 
-The full parameter list is in [Outputs → Configuration](outputs.md#configuration-parameters).
+<!-- The full parameter list is in [Outputs → Configuration](03_Outputs.md#configuration-parameters). -->
 
-## Run the stages
-
-Work through the two notebooks in the same Python session; inspect the intermediate outputs
-between stages.
-
-| Stage | Where | What happens |
-|-------|-------|--------------|
-| 1. Image processing | [notebook](02_ImageProcess.ipynb) | register to MNI; FSL FAST/BET; build `pre_model.nii.gz` |
-| 2. **Inspect segmentation** | [how-to](fsleyes.md) | check (and optionally refine) the labels in FSLeyes |
-| 3. Mesh creation | [notebook](04_MeshCreation.ipynb) | mesh, meninges, smoothing, contact repair |
-| 4. **Inspect the mesh** | [how-to](visualise.md) | check geometry/quality in LS-PrePost |
-| 5. *(optional)* Simulation | [how-to](simulation.md) | prepare and run an LS-DYNA simulation |
 
 !!! tip "Check as you go"
     A poor brain extraction or a gap in the segmentation is far cheaper to fix *before*
     meshing. Inspect images in FSLeyes and meshes in LS-PrePost at each stage.
 
-A full pipeline run takes **≈ 9–38 minutes per subject** depending on resolution (see
-[Evaluation → Runtime](evaluation.md#runtime)).
+A full pipeline run takes **≈ 9–38 minutes per subject** depending on resolution 
+<!-- (see [Evaluation → Runtime](evaluation.md#runtime)). -->
