@@ -59,18 +59,5 @@ A `rs/` resources folder (under the working directory) holds the lab's own modul
 - `mesh_utils.py` — utilities including brain–skull contact repair (`create_csf_buffer`).
 - `a.out` — the compiled smoother (above).
 
-## Preview this documentation
-
-The docs site uses MkDocs + Material + `mkdocs-jupyter`:
-
-```bash
-python -m venv .venv
-source .venv/Scripts/activate     # Windows Git Bash
-# .\.venv\Scripts\Activate.ps1     # Windows PowerShell
-# source .venv/bin/activate        # Linux / macOS
-pip install -r requirements.txt
-mkdocs serve                       # original site (port 8000)
-mkdocs serve -f mkdocs-v2.yml -a 127.0.0.1:8001   # this structure
-```
 
 Once your environment is ready, see **[Usage](02_Usage.md)**.

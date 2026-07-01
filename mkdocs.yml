@@ -1,10 +1,19 @@
 site_name: PARS
 repo_url: https://github.com/HEADLabIC/PARS.git
-
-## Please change the above name and link to point to your exemplar
-## Please do not change the theme or most other options below 
-
 edit_uri: tree/main/docs/
+
+nav:
+  - Home: index.md
+  - Installation: 01_Installation.md
+  - Usage: 02_Usage.md
+  # - Outputs: outputs.md
+  # - How PARS works:
+  #     - Overview: workflows.md
+  #     - Image processing: image-processing.md
+  #     - Mesh generation: mesh-generation.md
+  # - Evaluation: evaluation.md
+  # - Troubleshooting: troubleshooting.md
+  # - Citation: citation.md
 
 theme:
   name: material
@@ -31,7 +40,7 @@ theme:
     - toc.follow
     - content.code.annotate
 extra:
-  homepage: https://imperialcollegelondon.github.io/ReCoDE-home/
+  homepage: https://www.imperial.ac.uk/
 
 # Add here all the plugins you want to use.
 # Don't forget to add them in requirements.txt as well.
