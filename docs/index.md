@@ -36,12 +36,12 @@ the barrier to subject-specific brain modelling.
 
 <div class="grid cards" markdown>
 
-- :material-download: **[Installation](docs/01_Installation.md)** — dependencies and setup
-- :material-play: **[Usage](docs/02_Usage.md)** — run the pipeline on a subject
-- :material-file-tree: **[Outputs](docs/outputs.md)** — what PARS produces
+- :material-download: **[Installation](01_Installation.md)** — dependencies and setup
+- :material-play: **[Usage](02_Usage.md)** — run the pipeline on a subject
+<!-- - :material-file-tree: **[Outputs](docs/outputs.md)** — what PARS produces
 - :material-cog: **[How PARS works](docs/workflows.md)** — the scientific method
-- :material-chart-box: **[Evaluation](docs/evaluation.md)** — quality, timestep, volume, validation
-<!-- - :material-format-quote-close: **[Citing PARS](CITATION.cff)** — citing and acknowledging PARS -->
+- :material-chart-box: **[Evaluation](docs/evaluation.md)** — quality, timestep, volume, validation 
+- :material-format-quote-close: **[Citing PARS](CITATION.cff)** — citing and acknowledging PARS -->
 
 </div>
 
@@ -49,4 +49,4 @@ Developed in the **HEAD Lab**, Imperial College London.
 
 ## Licence 📄
 
-This project is licensed under the [BSD-3-Clause license](LICENSE.md).
+This project is licensed under the [BSD-3-Clause license](../LICENSE.md).
