@@ -93,17 +93,18 @@ Set the subject identifier and other user settings at the beginning of each note
 
 The first notebook prepares a labelled whole-head image. The second notebook converts the labelled image into a smoothed finite-element mesh.
 
-## Interactive image viewer
+!!! warning "FSL licence"
 
-Some notebook steps use the PARS interactive image viewer. The Codespaces configuration forwards port `8500` automatically.
+    Opening this repository in GitHub Codespaces automatically runs
+    `.devcontainer/install_fsl.sh`, which downloads Oxford's official
+    `getfsl.sh` installer and installs FSL in the Codespace.
 
-When the viewer starts, Codespaces should display a notification with an option to open it in the browser. You can also find it in the **Ports** panel:
+    FSL is third-party software and is not distributed under the PARS licence.
+    Its use is governed by the separate FSL licence. Users are responsible for
+    ensuring that their intended use complies with that licence.
 
-1. Open the **Ports** tab in the lower panel.
-2. Find port `8500`.
-3. Select **Open in Browser**.
-
-Keep the corresponding notebook cell or terminal process running while using the viewer.
+    Please review the [FSL licence](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html)
+    before launching the Codespace.
 
 ## Save your outputs
 

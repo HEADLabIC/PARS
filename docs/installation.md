@@ -105,9 +105,14 @@ Codespaces runs the PARS notebooks in a browser-based Linux environment and auto
 
 The generated images can also be inspected using the browser-based viewer included in the Codespaces environment, without installing FSLeyes locally.
 
-!!! note
+!!! warning "FSL licence"
 
-    PARS requires images generated or prepared using FreeSurfer `recon-all`. These input files must already be available before starting the PARS workflow, even when using Codespaces.
+    Opening PARS in GitHub Codespaces automatically installs FSL using
+    Oxford's official installer.
+
+    FSL is licensed separately from PARS. Please review the
+    [FSL licence](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html)
+    before using FSL.
 
 See [Run in Codespaces](codespaces.md) for instructions on creating a Codespace, uploading input data and downloading the generated outputs.
 
