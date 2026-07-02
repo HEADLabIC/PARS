@@ -1,4 +1,4 @@
-site_name: PARS
+site_name: PARS - HEAD Lab
 repo_url: https://github.com/HEADLabIC/PARS.git
 edit_uri: tree/main/docs/
 
@@ -19,16 +19,21 @@ theme:
   name: material
   custom_dir: docs
   logo: assets/iclogo.png
-  favicon: assets/favicon.ico
+  favicon: assets/PARS_logo-01-cropped.svg
   font:
     text: Roboto
     code: Roboto Mono
+
   palette:
     - scheme: default
+      primary: teal
+      accent: indigo
       toggle:
         icon: material/toggle-switch
         name: Switch to dark mode
     - scheme: slate
+      primary: teal
+      accent: indigo
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
@@ -40,7 +45,7 @@ theme:
     - toc.follow
     - content.code.annotate
 extra:
-  homepage: https://www.imperial.ac.uk/
+  homepage: https://headlabic.github.io/PARS
 
 # Add here all the plugins you want to use.
 # Don't forget to add them in requirements.txt as well.

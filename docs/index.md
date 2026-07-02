@@ -47,6 +47,6 @@ the barrier to subject-specific brain modelling.
 
 Developed in the **HEAD Lab**, Imperial College London. 
 
-## Licence 📄
+## Licence
 
 This project is licensed under the [BSD-3-Clause license](../LICENSE.md).
