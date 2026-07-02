@@ -1,11 +1,14 @@
 # Using PARS
 
-PARS is run through two notebooks. Run them in this order:
+We have encapsulated the source code so that the whole pipeline can be run by simply executing the workflow by running through two Jupyter notebooks:
 
-1. `01_ImageProcessing.ipynb`
-2. `02_MeshCreation.ipynb`
+1. `notebooks/01_ImageProcessing.ipynb` prepares a labelled whole-head volume.
+2. `notebooks/02_MeshCreation.ipynb` converts that volume into a smoothed LS-DYNA mesh.
 
-The notebooks contain the executable workflow, progress messages and checks for missing files. Users normally only need to prepare the input folder, change the settings at the beginning of each notebook and run the cells in order.
+
+The notebooks contain the executable workflow, progress messages and checks for missing files. Users normally only need to prepare the input folder, change the settings at the beginning of each notebook and run the cells in order. The notebooks are the main user interface. 
+Code in `src/` supports the notebook workflow and is not normally run directly.
+
 
 ## 1. Prepare the subject data
 

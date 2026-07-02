@@ -1,11 +1,17 @@
 # PARS: Pipeline for Automated Reconstruction of Subject-specific head models
 
-PARS is an automated pipeline for generating subject-specific finite-element head models from structural MRI data. The workflow is designed to be reproducible and straightforward to use across macOS, Linux, and Windows, with the processing steps guided through two Jupyter notebooks.
+PARS is an automated pipeline for generating subject-specific finite-element head models from structural MRI data. The workflow is designed to be reproducible and straightforward to use across macOS (Intel and Apple Silicon), Linux, and Windows (via the Windows Subsystem for Linux), with the processing steps guided through two Jupyter notebooks.
+
+<p align="center">
+  <img src="assets/brain-strain-demo.gif"
+       alt="Finite-element simulation showing brain strain"
+       width="300">
+</p>
+*A PARS-generated head model used in a finite-element simulation to calculate brain-tissue deformation.*
 
 If you use PARS, please cite this paper: 
 
 > Darvishi V., Chan E. Y. K., Duckworth H., Parker T. D., Sharp D. J., Ghajari M. PARS: an automated, open-source pipeline for subject-specific finite element head modelling from MRI. (manuscript; journal/DOI to be updated on publication.)
-
 
 We have encapsulated the source code so that the whole pipeline can be run by simply executing the workflow by running through two Jupyter notebooks:
 
@@ -39,6 +45,17 @@ PARS/
 ├── requirements.txt
 └── pyproject.toml
 ```
+
+
+## What PARS does
+
+PARS supports:
+
+- automated generation of subject-specific head geometry from MRI;
+- creation of detailed finite-element meshes;
+- control of mesh quality and stable time step;
+- representation of structures including the falx and tentorium;
+- preparation of models for finite-element simulation and brain-strain analysis.
 
 ## What PARS produces
 
