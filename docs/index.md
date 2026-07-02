@@ -13,13 +13,6 @@ If you use PARS, please cite this paper:
 
 > Darvishi V., Chan E. Y. K., Duckworth H., Parker T. D., Sharp D. J., Ghajari M. PARS: an automated, open-source pipeline for subject-specific finite element head modelling from MRI. (manuscript; journal/DOI to be updated on publication.)
 
-We have encapsulated the source code so that the whole pipeline can be run by simply executing the workflow by running through two Jupyter notebooks:
-
-1. `notebooks/01_ImageProcessing.ipynb` prepares a labelled whole-head volume.
-2. `notebooks/02_MeshCreation.ipynb` converts that volume into a smoothed LS-DYNA mesh.
-
-The notebooks are the main user interface. Code in `src/` supports the notebook workflow and is not normally run directly.
-
 ## Start here
 
 PARS can be run in two ways:
