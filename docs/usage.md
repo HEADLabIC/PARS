@@ -1,4 +1,4 @@
-# Usage
+# Using PARS
 
 PARS is run through two notebooks. Run them in this order:
 

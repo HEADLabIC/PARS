@@ -16,11 +16,12 @@ The notebooks are the main user interface. Code in `src/` supports the notebook 
 
 ## Start here
 
-Before running PARS:
+PARS can be run in two ways:
 
-1. install the external software and Python environment described in [Installation](installation.md);
-2. place the subject input files under `data/subjects/`;
-3. run the two notebooks in order, following [Usage](usage.md).
+- [Install and run PARS locally](installation.md#option-1-install-pars-locally).
+- [Run PARS in GitHub Codespaces](installation.md#option-2-run-pars-in-github-codespaces) without installing PARS or FSL on your device - follow [Running in Codespaces](codespaces.md)
+
+For the processing steps and required input files, see [Using PARS](usage.md).
 
 ## Repository structure
 
@@ -61,6 +62,3 @@ mesh_smoothed_revised.k
 
 See [Outputs](outputs.md) for a concise description of the generated files.
 
-## Scientific background
-
-This documentation focuses on running the software. The methods, evaluation and scientific applications of PARS are described in the PARS paper/preprint.
