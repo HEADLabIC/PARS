@@ -4,16 +4,11 @@ edit_uri: tree/main/docs/
 
 nav:
   - Home: index.md
-  - Installation: 01_Installation.md
-  - Usage: 02_Usage.md
-  # - Outputs: outputs.md
-  # - How PARS works:
-  #     - Overview: workflows.md
-  #     - Image processing: image-processing.md
-  #     - Mesh generation: mesh-generation.md
-  # - Evaluation: evaluation.md
-  # - Troubleshooting: troubleshooting.md
-  # - Citation: citation.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Outputs: outputs.md
+  - Troubleshooting: troubleshooting.md
+  - Citation: citation.md
 
 theme:
   name: material
@@ -23,7 +18,6 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-
   palette:
     - scheme: default
       primary: teal
@@ -37,48 +31,25 @@ theme:
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
-
-  # SPA behaviour
   features:
     - navigation.instant
     - navigation.top
     - toc.follow
-    - content.code.annotate
-extra:
-  homepage: https://headlabic.github.io/PARS
+    - content.code.copy
 
-# Add here all the plugins you want to use.
-# Don't forget to add them in requirements.txt as well.
 plugins:
-  - tags
   - search
-  - include-markdown # https://github.com/mondeja/mkdocs-include-markdown-plugin
+  - include-markdown
   - mkdocs-jupyter
   - exclude:
       glob:
-      - "LICENSE.md"
+        - "LICENSE.md"
 
-# Set settings for markdown extensions
 markdown_extensions:
-  - meta
-  - mdx_math:
-      enable_dollar_delimiter: True
-  - pymdownx.highlight:
-      anchor_linenums: false
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight
   - pymdownx.inlinehilite
-  - pymdownx.snippets
   - pymdownx.superfences
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - admonition # for note box
-  - pymdownx.details # for note box
-  - attr_list # for figure caption
-  - md_in_html # for figure caption
-  - pymdownx.blocks.caption # for figure caption
-
-# Render math in mkdocs
-extra_javascript:
-  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML
