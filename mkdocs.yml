@@ -8,7 +8,6 @@ nav:
   - Usage: usage.md
   - Outputs: outputs.md
   - Troubleshooting: troubleshooting.md
-  - Citation: citation.md
 
 theme:
   name: material
