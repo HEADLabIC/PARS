@@ -13,7 +13,7 @@ nav:
 theme:
   name: material
   custom_dir: docs
-  logo: assets/iclogo.png
+  logo: assets/HeadLab-Logo-white.png
   favicon: assets/PARS_logo-01-cropped.svg
   font:
     text: Roboto
