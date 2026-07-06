@@ -20,10 +20,10 @@
   }
 
   [data-md-color-scheme="default"] .md-sidebar--primary .md-sidebar__scrollwrap::before {
-    background-image: url("../assets/pars_logo-light.svg");
+    background-image: url("../assets/PARS_logo-light.svg");
   }
 
   [data-md-color-scheme="slate"] .md-sidebar--primary .md-sidebar__scrollwrap::before {
-    background-image: url("../assets/pars_logo-dark.svg");
+    background-image: url("../assets/PARS_logo-dark.svg");
   }
 }
