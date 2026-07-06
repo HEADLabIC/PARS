@@ -1,0 +1,29 @@
+/* Only apply on desktop/tablet where the left sidebar is visible */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary .md-sidebar__scrollwrap {
+    position: relative;
+    padding-top: 8.5rem;
+  }
+
+  .md-sidebar--primary .md-sidebar__scrollwrap::before {
+    content: "";
+    position: absolute;
+
+    top: 1rem;
+    left: 1rem;
+    width: 9.5rem;
+    height: 7rem;
+
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: contain;
+  }
+
+  [data-md-color-scheme="default"] .md-sidebar--primary .md-sidebar__scrollwrap::before {
+    background-image: url("../assets/pars_logo-light.svg");
+  }
+
+  [data-md-color-scheme="slate"] .md-sidebar--primary .md-sidebar__scrollwrap::before {
+    background-image: url("../assets/pars_logo-dark.svg");
+  }
+}
