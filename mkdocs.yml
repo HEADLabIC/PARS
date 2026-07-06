@@ -4,8 +4,9 @@ edit_uri: tree/main/docs/
 
 nav:
   - Home: index.md
-  - Installation: installation.md
-  - Run in Codespaces: codespaces.md
+  - Setup:
+      - Local setup: installation.md
+      - Github Codespaces setup: codespaces.md
   - Using PARS: usage.md
   - Outputs: outputs.md
   - Troubleshooting: troubleshooting.md
@@ -32,8 +33,8 @@ theme:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
   features:
-    - navigation.instant
-    - navigation.top
+    - navigation.sections
+    - navigation.tracking
     - toc.follow
     - content.code.copy
 

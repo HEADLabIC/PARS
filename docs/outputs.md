@@ -5,17 +5,17 @@ PARS stores generated files inside the processed subject folder.
 ## Image-processing output
 
 ```text
-data/subjects/<subject_name>/pre_model.nii.gz
+data/subjects/{subject_name}/pre_model.nii.gz
 ```
 
-This is the labelled geometry passed from `01_ImageProcessing.ipynb` to `02_MeshCreation.ipynb`.
+This is the labelled geometry passed from `01_ImageProcess.ipynb` to `02_MeshCreation.ipynb`.
 
 Temporary registration and segmentation files are also created under folders such as:
 
 ```text
-data/subjects/<subject_name>/tmp/
-data/subjects/<subject_name>/img/fast/
-data/subjects/<subject_name>/img/bet/
+data/subjects/{subject_name}/tmp/
+data/subjects/{subject_name}/img/fast/
+data/subjects/{subject_name}/img/bet/
 ```
 
 These files are useful for checking intermediate processing but are not the final mesh.
@@ -25,7 +25,7 @@ These files are useful for checking intermediate processing but are not the fina
 By default, mesh files are written to:
 
 ```text
-data/subjects/<subject_name>/output/
+data/subjects/{subject_name}/output/
 ```
 
 The main files are:

@@ -1,54 +1,34 @@
-# Installation
+# Local setup
 
-PARS can be run either:
+This page explains how to set up PARS on your own computer, workstation, or institutional machine.
 
-1. locally, by installing the required software and cloning the repository; or
-2. in a preconfigured GitHub Codespace, without installing PARS or FSL on your local computer.
+If you do not want to install PARS and FSL locally, use [GitHub Codespaces setup](codespaces.md) instead.
 
-## Option 1: Install PARS locally
+After completing either setup route, continue to [Using PARS](usage.md). The input files, notebook settings, and run order are explained there only.
 
-To run PARS on your own computer, install the external software and Python dependencies described below.
+## Local prerequisites
 
-### External software
+### FSL
 
-#### FSL
+The image-processing notebook uses FSL commands such as FLIRT, FAST, BET, and BETSURF. Install FSL and make sure FSL commands are available in the same terminal or environment used to launch Jupyter.
 
-In the image processing steps, PARS uses commands provided by [FSL](https://fsl.fmrib.ox.ac.uk/fsl/docs/).
-
-Install FSL and confirm that it is available from the terminal:
+Check this with:
 
 ```bash
 fslversion
+which flirt
+which fast
+which bet
 ```
 
-PARS cannot run correctly unless the FSL commands are available in your environment.
+If these commands are not found, PARS will not run correctly.
 
-#### FreeSurfer
+!!! warning "FSL licence"
+    FSL is third-party software and is licensed separately from PARS. Users are responsible for ensuring that their use of FSL complies with the applicable [FSL licence](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html).
 
-The input image of PARS are MR images generated/handled by the `recon-all` of [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/). 
+### Python
 
-FreeSurfer processing should therefore be completed before running PARS. See the Usage page for the required input files and directory structure.
-
-#### Additional software
-
-Depending on which parts of the workflow you use, you may also need:
-
-* a C++ compiler to build the mesh-smoothing program;
-* LS-PrePost to inspect the generated finite-element model; and
-* LS-DYNA to run simulations using the generated model
-
-### Download PARS
-
-Clone the repository and move into its root directory:
-
-```bash
-git clone https://github.com/HEADLabIC/PARS.git
-cd PARS
-```
-
-### Create a Python environment
-
-We recommend using a dedicated Python environment for PARS.
+PARS requires Python 3.9 or newer. A dedicated environment is recommended.
 
 Using `venv`:
 
@@ -57,24 +37,44 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-Alternatively, using Conda:
+Using Conda:
 
 ```bash
 conda create -n pars python=3.11
 conda activate pars
 ```
 
-### Install PARS
+### Optional external tools
 
-From the root of the repository, install the PARS Python package:
+Depending on the downstream workflow, you may also need:
+
+- FreeSurfer or access to FreeSurfer-derived MRI outputs;
+- a C++ compiler if you rebuild the mesh-smoothing program;
+- LS-PrePost to inspect the generated finite-element model; and
+- LS-DYNA to run simulations using the generated model.
+
+These tools are not the same as the core PARS notebook workflow.
+
+## Download PARS
+
+Clone the repository and move into its root directory:
+
+```bash
+git clone https://github.com/HEADLabIC/PARS.git
+cd PARS
+```
+
+## Install the PARS Python package
+
+From the root of the repository, run:
 
 ```bash
 pip install -e .
 ```
 
-This installs the Python code contained in `src/` so that it can be imported by the notebooks.
+This installs the Python code in `src/` so it can be imported by the notebooks.
 
-### Start Jupyter
+## Start Jupyter
 
 Install Jupyter if it is not already available:
 
@@ -82,43 +82,19 @@ Install Jupyter if it is not already available:
 pip install jupyter
 ```
 
-Start Jupyter from the root of the PARS repository:
+Start Jupyter from the PARS repository root:
 
 ```bash
 jupyter lab
 ```
 
-Run the notebooks in the following order:
+Open the notebooks from the `notebooks/` folder when following [Using PARS](usage.md).
 
-1. `notebooks/01_ImageProcessing.ipynb`
-2. `notebooks/02_MeshCreation.ipynb`
+## Next step
 
-See the [Using PARS](usage.md) page for instructions on preparing the input data and running the notebooks.
+Continue to [Using PARS](usage.md) for the required subject files, notebook settings, mesh-smoother choice, and output checks.
 
-
-
-## Option 2: Run PARS in GitHub Codespaces
-
-The easiest way to use PARS is through the preconfigured [GitHub Codespaces environment](codespaces.md).
-
-Codespaces runs the PARS notebooks in a browser-based Linux environment and automatically installs FSL, Jupyter and the required Python dependencies. You can therefore run the PARS workflow without installing these tools on your local computer.
-
-The generated images can also be inspected using the browser-based viewer included in the Codespaces environment, without installing FSLeyes locally.
-
-!!! warning "FSL licence"
-
-    Opening PARS in GitHub Codespaces automatically installs FSL using
-    Oxford's official installer.
-
-    FSL is licensed separately from PARS. Please review the
-    [FSL licence](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html)
-    before using FSL.
-
-See [Run in Codespaces](codespaces.md) for instructions on creating a Codespace, uploading input data and downloading the generated outputs.
-
-
-
-
+<!-- 
 ## Documentation development
 
 This section is only for contributors who want to edit or preview the PARS documentation website.
@@ -134,3 +110,4 @@ Preview the site locally:
 ```bash
 mkdocs serve
 ```
+ -->
