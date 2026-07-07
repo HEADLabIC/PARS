@@ -5,28 +5,32 @@ title: "PARS"
 type: software
 
 authors:
-
-* family-names: "Chan"
-  given-names: "Emily Yik Kwan"
+  - family-names: "Chan"
+    given-names: "Emily Yik Kwan"
 
 repository-code: "https://github.com/HEADLabIC/PARS"
 
 preferred-citation:
-type: article
-title: >-
-PARS: an automated, open-source pipeline for subject-specific
-finite element head modelling from MRI
-authors:
-- family-names: "Darvishi"
-  given-names: "Vahid"
-- family-names: "Chan"
-  given-names: "Emily Yik Kwan"
-- family-names: "Duckworth"
-  given-names: "Harry"
-- family-names: "Parker"
-  given-names: "Thomas D."
-- family-names: "Sharp"
-  given-names: "David J."
-- family-names: "Ghajari"
-  given-names: "Mazdak"
-year: 2026
+  type: article
+  title: >-
+    PARS: an automated, open-source pipeline for subject-specific
+    finite element head modelling from MRI
+  authors:
+    - family-names: "Darvishi"
+      given-names: "Vahid"
+    - family-names: "Chan"
+      given-names: "Emily Yik Kwan"
+    - family-names: "Duckworth"
+      given-names: "Harry"
+    - family-names: "Parker"
+      given-names: "Thomas D."
+    - family-names: "Sharp"
+      given-names: "David J."
+    - family-names: "Ghajari"
+      given-names: "Mazdak"
+  year: 2026
+  month: 7
+  journal: "bioRxiv"
+  doi: "10.64898/2026.07.05.736584"
+  url: "https://www.biorxiv.org/content/10.64898/2026.07.05.736584v1"
+  notes: "Preprint"
