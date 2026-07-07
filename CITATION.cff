@@ -1,20 +1,17 @@
 cff-version: 1.2.0
-message: "If you use PARS, please cite the associated paper below."
-
+message: "If you use PARS, please cite the associated preprint."
 title: "PARS"
 type: software
-
 authors:
+  - family-names: "Darvishi"
+    given-names: "Vahid"
   - family-names: "Chan"
     given-names: "Emily Yik Kwan"
-
 repository-code: "https://github.com/HEADLabIC/PARS"
-
+url: "https://headlabic.github.io/PARS/"
 preferred-citation:
   type: article
-  title: >-
-    PARS: an automated, open-source pipeline for subject-specific
-    finite element head modelling from MRI
+  title: "PARS: an automated, open-source pipeline for subject-specific finite element head modelling from MRI"
   authors:
     - family-names: "Darvishi"
       given-names: "Vahid"
@@ -28,9 +25,9 @@ preferred-citation:
       given-names: "David J."
     - family-names: "Ghajari"
       given-names: "Mazdak"
+  journal: "bioRxiv"
   year: 2026
   month: 7
-  journal: "bioRxiv"
   doi: "10.64898/2026.07.05.736584"
   url: "https://www.biorxiv.org/content/10.64898/2026.07.05.736584v1"
   notes: "Preprint"
