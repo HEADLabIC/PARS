@@ -1,1 +1,5 @@
 .*LICENSE.md
+# DOI resolver and bioRxiv block automated link checkers (403), though the
+# links resolve fine in a browser. Ignore them to avoid false CI failures.
+.*doi\.org.*
+.*biorxiv\.org.*
