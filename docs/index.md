@@ -12,7 +12,7 @@ PARS is an automated pipeline for generating subject-specific finite-element hea
 
 If you use PARS, please cite:
 
-> Darvishi V., Chan E. Y. K., Duckworth H., Parker T. D., Sharp D. J., Ghajari M. PARS: an automated, open-source pipeline for subject-specific finite element head modelling from MRI. (manuscript; journal/DOI to be updated on publication.)
+> Darvishi V., Chan E. Y. K., Duckworth H., Parker T. D., Sharp D. J., Ghajari M. PARS: an automated, open-source pipeline for subject-specific finite element head modelling from MRI. *bioRxiv* 2026.07.05.736584 (2026). https://doi.org/10.64898/2026.07.05.736584
 
 ## How to use these docs
 
