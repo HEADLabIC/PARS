@@ -3,3 +3,13 @@ mkdocs-include-markdown-plugin==3.7.1
 mkdocs-jupyter==0.24.5
 mkdocs-material==9.4.6
 python-markdown-math==0.8
+nibabel
+scipy
+numpy
+pandas
+sys
+os
+operator
+re
+math
+cs
