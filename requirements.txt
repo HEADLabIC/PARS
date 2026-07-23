@@ -7,9 +7,3 @@ nibabel
 scipy
 numpy
 pandas
-sys
-os
-operator
-re
-math
-cs
