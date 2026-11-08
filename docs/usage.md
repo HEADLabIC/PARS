@@ -85,7 +85,7 @@ At the start of the notebook, find section `0. Path configuration` and edit the 
 
 ```python
 subject_name = "subject_01"
-skull_privacy_percentage = 10
+skull_privacy_percentage = 0
 ```
 
 `subject_name` must match the folder name under `data/subjects/`.
@@ -191,11 +191,13 @@ Do not move the executable out of `src/dependencies/rs/`. Only change the filena
 For most runs, the remaining mesh and smoothing parameters should be left at their notebook defaults. These include:
 
 ```bash
-smoothing_passes=8
-relaxation_factor=0.2
-surface_iteration_limit=200
-internal_search_limit=2000
+smoothing_iterations=8      # number of smoothing iterations
+jacobian_threshold=0.2      # minimum scaled Jacobian at the element corners
+dt_min_skull_skin_ns=200    # minimum stable time step for skull and skin elements [ns]
+dt_min_brain_csf_ns=2000    # minimum stable time step for brain and CSF elements [ns]
 ```
+
+The smoother computes the stable time step of each element from the material properties set at the start of `main()` in `src/dependencies/rs/MeshSmoothing.cpp` (skin, cortical bone, diploe, CSF, brain, falx and tentorium, pia). If your simulations use different properties, change those values and rebuild the executable, so that the time-step limits refer to your model.
 
 Run the cells from top to bottom. The notebook will:
 
