@@ -1,22 +1,3 @@
-/*=========================================================================
-*
-* Mazdak Ghajari
-* Junior Research Fellow
-* Department of Aeronautics
-* Imperial College London
-*
-*=========================================================================*/
-/* Rev. 01: 
- * 1. Jacobian is calculated at the centre of the elements
- * 2. mu is set to zero to obtain good smoothing quality, with the expense
- * of volume change.
- * 3. The GM/WM, GM/BS and WM/BS interfaces are ignored during the smoothing.
- * 
- * Rev. 02:
- * 1. Instead of minimum element length, the characteristic length is 
- * evaluated for solid elements.
- * */
- 
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -35,7 +16,7 @@ struct element_data
 {
 	int eid;
 	int pid;
-	int ipid; // this is used to ignore interfaces
+	int ipid; 
 	int conn[8];
 };
 
@@ -48,15 +29,129 @@ struct node_data
 void neighbourlist(float, int, int, position *, int *, int *, int *);
 
 void jac_len(int, position [], float *, float *, float *, float *);
-	
+float element_dt(int, float, float, const float *, float, float, float *);
+
+int classifyPID(int pid)
+{
+    switch(pid)
+    {
+
+        case 260: return 0;
+
+        case 257:
+            return 1;
+
+        case 258: return 2;
+
+        case 259:
+        case   4:
+        case   5:
+        case  14:
+        case  15:
+        case  24:
+        case  31:
+        case  43:
+        case  44:
+        case  63:
+        case 256:
+            return 3;
+
+        case   2:
+        case   3:
+        case   7:
+        case   8:
+        case  10:
+        case  11:
+        case  12:
+        case  13:
+        case  16:
+        case  17:
+        case  18:
+        case  26:
+        case  28:
+        case  30:
+        case  41:
+        case  42:
+        case  46:
+        case  47:
+        case  49:
+        case  50:
+        case  51:
+        case  52:
+        case  53:
+        case  54:
+        case  58:
+        case  60:
+        case  62:
+        case  77:
+        case  85:
+        case 251:
+        case 252:
+        case 253:
+        case 254:
+        case 255:
+            return 4;
+
+        default: return -1;
+    }
+}
+
+int ipidGroup(int pid)
+{
+
+    switch(pid)
+    {
+
+        case 260:
+            return 1000;
+
+        case 257: case 258:
+            return 2000;
+
+        case  24: case 256: case 259:
+            return 3000;
+
+        case  3:
+        case 42:
+            return 4000;
+
+        case  4:
+        case  5:
+        case 14:
+        case 15:
+        case 31:
+        case 43:
+        case 44:
+        case 63:
+            return 5000;
+
+        case 16:
+            return 6000;
+
+        case  2: case 41:
+        case 77: case 78: case 79:
+        case 251: case 252: case 253: case 254: case 255:
+        case  7: case  8:
+        case 46: case 47:
+        case  9: case 10: case 11: case 12: case 13:
+        case 17: case 18:
+        case 25: case 26: case 27: case 28:
+        case 48: case 49: case 50: case 51: case 52:
+        case 53: case 54:
+        case 57: case 58: case 59: case 60:
+        case 85:
+            return 7000;
+
+        default:
+            return pid;
+    }
+}	
 int main(int argc, char * argv[])
 {
-	// Two constants
-	float lambda = 0.3; // values from literature (cf. Chen(2010))
-	float kBP = 0.01; // band-pass frequency 0.01 < kBP < 0.1 (cf. Taubin (1995))
-    float mu = 0; //1/(kBP-1/lambda); // cf. Taubin (1995)
-    
-	// Verify the number of parameters in the command line
+	float lambda = 0.3; 
+	float kBP = 0.01; 
+    float mu = 0; 
+
 	if( argc < 8 )
 	{
 		std::cerr << "Usage: " << std::endl;
@@ -72,12 +167,12 @@ int main(int argc, char * argv[])
 
 	int nIters = atoi( argv[3] );
 	float jacThresh = atof( argv[4] );
-	float dtThresh1 = atof( argv[5] ); // [ns]
-	float dtThresh2 = atof( argv[6] ); // [ns]
+	float dtThresh1 = atof( argv[5] ); 
+	float dtThresh2 = atof( argv[6] ); 
 	float gridSpacing = atof( argv[7] );
 	
-	dtThresh1 = dtThresh1/1e6; //[ms]
-	dtThresh2 = dtThresh2/1e6; //[ms]
+	dtThresh1 = dtThresh1/1e6; 
+	dtThresh2 = dtThresh2/1e6; 
 	
 	#define MAX_KEY_LINE 200
     char  line[MAX_KEY_LINE];
@@ -92,54 +187,44 @@ int main(int argc, char * argv[])
 		--valend;
 	*(valend) = '\0';
     
-    char logFileName[strlen(line) + 3];
+    char logFileName[strlen(line) + 5];
     strcpy(logFileName, line);
     strcat(logFileName, ".log");
 
 
-	// --------------------------------------------------------------
-	// Determine the dilatational wave speed for different parts
 	float cd[7];
-	float nu[6], E[6], ro[6]; // [-], [GPa], [kg/mm3]
+	float nu[7], E[7], ro[7];
 	float Kb, G0b;
 	
-	// Skin
 	nu[0] = 0.42; E[0] = 0.0167; ro[0] = 1e-6;
-		
-	// Cortical bone and Trabecular bone
+	
 	nu[1] = 0.21; E[1] = 15;  ro[1] = 1.9e-6;
 	nu[2] = 0.05; E[2] = 4.6; ro[2] = 1.5e-6;
 	
-	//CSF
 	nu[3] = 0.49999; E[3] = 1.5e-6; ro[3] = 1.04e-6;
 	
-	// Brain and Brain Stem
 	Kb = 50e-3; G0b = 417097e-9; ro[4] = 1.04e-6;
 	
-	// Falx and Tentorium
-	nu[5] = 0.45; E[5] = 31.5e-3; ro[5] = 1.113e-6;
-	
-	// Pia
-	nu[6] = 0.45; E[6] = 11.5e-3; ro[6] = 1.113e-6;
-	
+	nu[5] = 0.45; E[5] = 31.5e-3; ro[5] = 1.13e-6;
+
+	nu[6] = 0.45; E[6] = 11.5e-3; ro[6] = 1.13e-6;
+
 	for ( int i = 0; i < 7; ++i)
-		if ( ( i == 0 ) || ( i == 2 ) || ( i == 3 ) )
+		if ( ( i == 0 ) || ( i == 1 ) || ( i == 2 ) || ( i == 3 ) )
 			cd[i] = sqrt((E[i]*(1 - nu[i]))/((1 + nu[i])*(1 - 2*nu[i])*ro[i]));
-		else if ( ( i == 1 ) || ( i == 5 ) || ( i == 6 ) )
+		else if ( ( i == 5 ) || ( i == 6 ) )
 			cd[i] = sqrt(E[i]/((1 - nu[i]*nu[i])*ro[i]));
 		else
 			cd[i] = sqrt((Kb + (4.0/3.0)*G0b)/ro[i]);
-	
+
 	std::cout << "Dilatational wave speed [m/s] in: " << std::endl;
 	std::cout << "skin * cortical bone * diploe * CSF * brain * ";
-	std::cout << "Falx * Tentorium * pia matter *" << std::endl;
+	std::cout << "falx and tentorium * pia matter *" << std::endl;
 	for ( int i = 0; i < 7; ++i)
 		std::cout << cd[i] << " * ";
 	std::cout << std::endl;
 
 	
-	// --------------------------------------------------------------
-	// Read the input file
 	
 	std::cout << "Reading the input file ..." << std::endl << std::endl;
 	
@@ -171,7 +256,6 @@ int main(int argc, char * argv[])
 			{
 				++nElems;
 				
-				// Find the largest element number
 				valstart = line + 0;
                 valend = valstart + 8;
                 *valend = '\0';
@@ -192,7 +276,6 @@ int main(int argc, char * argv[])
 			{
 				++nShellElems;
 				
-				// Find the largest element number
 				valstart = line + 0;
                 valend = valstart + 8;
                 *valend = '\0';
@@ -213,7 +296,6 @@ int main(int argc, char * argv[])
 			{
 				++nNodes;
 				
-				// Find the largest node number
 				valstart = line + 0;
                 valend = valstart + 8;
                 *valend = '\0';
@@ -263,11 +345,7 @@ int main(int argc, char * argv[])
                 valend = valstart + 8;
                 *valend = '\0';
                 elemData[i].pid = atoi(valstart);
-                elemData[i].ipid = elemData[i].pid;
-                
-                // thus do not smooth the mesh at the GM/WM, WM/BS, GM/BS and Vens/WM interfaces
-                if ( ( elemData[i].ipid == 4 ) || ( elemData[i].ipid == 6 ) || ( elemData[i].ipid == 7 ) )
-					elemData[i].ipid = 5; 
+                elemData[i].ipid = ipidGroup(elemData[i].pid); 
                 
                 valstart = line;
                 valend = valstart + 8;
@@ -332,19 +410,7 @@ int main(int argc, char * argv[])
 	infile.close();
 	std::cout << std::endl << "Reading the input file finished." << 
 		std::endl << std::endl;
-	
-	// --------------------------------------------------------------
-	// Classify the nodes and find the number of neighbours
-	
-	/* nodeClass ... array with added classification number
-	%                 -> 1...fixed node
-	%                    2...interior node
-	%                    3...interface node
-	%                    4...surface node
-	
-	% A valid neighbour is a node (j) which shares an edge with the node (i) and
-	% its classification number is not smaller than the classification number
-	% of the node (i). */
+
 
 	std::cout << "Node classification and neighbour listing ..." << 
 		std::endl << std::endl;
@@ -360,7 +426,7 @@ int main(int argc, char * argv[])
 		nNeighs[i] = 0;
 		nAppear[i] = 0;
 		partID[i] = 0;
-		nodeClass[i] = 2; //interior node (default)
+		nodeClass[i] = 2; 
 	}
 	
 	for (int i = 0; i < nElems; ++i)
@@ -372,12 +438,12 @@ int main(int argc, char * argv[])
 			if ( partID[nid] == 0 )
 				partID[nid] = elemData[i].ipid;
 			else if ( partID[nid] != elemData[i].ipid )
-				nodeClass[nid] = 3; //interface node
+				nodeClass[nid] = 3; 
 		}
 	
 	for (int i = 0; i < nNodes; ++i)
 	{
-	    if ( nAppear[i] < 8 ) //surface node
+	    if ( nAppear[i] < 8 && nodeClass[i] == 2 )
 	        nodeClass[i] = 4;
 	}
 	
@@ -386,7 +452,7 @@ int main(int argc, char * argv[])
 	
 	int nminacts, i, j;
 	float horizon = 1.1*gridSpacing;
-	int maxinacts = 6*nNodes;
+	int maxinacts = 15*nNodes;
 	int *pair_i = new int[maxinacts];
 	int *pair_j = new int[maxinacts];
 	position *posNodes = new position[nNodes];
@@ -414,8 +480,6 @@ int main(int argc, char * argv[])
 		std::endl << std::endl;
 
 
-	// --------------------------------------------------------------
-	// Smooth the mesh
 	
 	std::cout << "Applying the smoothing filter ..." << std::endl << std::endl;
 	
@@ -428,20 +492,20 @@ int main(int argc, char * argv[])
 	float minDetJ, minDetJcent;
 	float lc2D, lc3D, minlc2D, minlc3D;
 	float dtmin, dt2D, dt3D, mindtmin, dtThresh;
-		
+	float mindtmin_skull, mindtmin_brain;
+
 	std::ofstream logfile( logFileName );
 	logfile << 	"No. of Iterations: " << nIters << std::endl;
 	logfile << 	"Jacobian threshold: " << jacThresh << std::endl;
-	logfile << 	"Min stable time step threshold [ms]: " << dtThresh << std::endl;
+	logfile << 	"Min time step threshold skull/skin [ms]: " << dtThresh1 << std::endl;
+	logfile << 	"Min time step threshold brain/CSF  [ms]: " << dtThresh2 << std::endl;
 	logfile << 	"Grid spacing: " << gridSpacing << std::endl;
 	logfile << 	"lambda: " << std::setw(8) << lambda << std::endl;
 	logfile << 	"band-pass frequency: " << std::setw(8) << kBP << std::endl;
 	logfile << 	"mu: " << std::setw(8) << mu << std::endl << std::endl;
 	
-	// Smoothing iterations
 	for (int k = 0; k < 2*nIters; ++k)
 	{   
-		//Initialize a new iteration 
         for (int p = 0; p < nNodes; ++p)
 			for (int dim = 0; dim < 3; ++dim)
 			{
@@ -451,7 +515,6 @@ int main(int argc, char * argv[])
 				deltax[p].xyz[dim] = 0.0;
 			}
 	    
-	    //Determine deltax for each node
 	    for (int inact = 0; inact < nminacts; ++inact)
 	    {
 	        i = pair_i[inact];
@@ -470,9 +533,7 @@ int main(int argc, char * argv[])
 		
 		for (int i = 0; i < nNodes; ++i)
 			for (int dim = 0; dim < 3; ++dim)
-				deltax[i].xyz[dim] = deltax[i].xyz[dim]/nNeighs[i];
-		
-		//Apply the filter	    
+				deltax[i].xyz[dim] = (nNeighs[i] > 0) ? deltax[i].xyz[dim]/nNeighs[i] : 0.0;    
 	    for (int i = 0; i < nNodes; ++i)
 	    {				
 	        if (k % 2 == 0)
@@ -485,78 +546,70 @@ int main(int argc, char * argv[])
 						mu*deltax[i].xyz[dim];
 		}
 	    
-	    //Determine/check the Jacobian and min length
 	    if (k % 2 == 1)
 	    {
-	        for (int i = 0; i < nElems; ++i)
-	        {
-			    for (int j = 0; j < 8; ++j)
-			    {
-			        nid = uNodes[elemData[i].conn[j]];
-			        
-			        for (int dim = 0; dim < 3; ++dim)
-						dumPos[j].xyz[dim] = nodeData[nid].xyz[dim];
-				}
-			
-			    jac_len(gridSpacing, dumPos, &(detJ[i]), &(detJcent[i]), &(lc2D), &(lc3D) );
-	            
-	            if (detJ[i] < jacThresh)
-	                for (int j = 0; j < 8; ++j)
-						nodeClass[uNodes[elemData[i].conn[j]]] = 1;//fix the nodes of the element
-				
-				if ( elemData[i].pid == 1 ) // skin
-				{
-					dt3D = lc3D/cd[0];
-					dt2D = dt3D;
-					dtThresh = dtThresh1;
-				}
-				else if ( elemData[i].pid == 2 ) // skull
-				{
-					dt3D = lc3D/cd[2];
-					dt2D = lc2D/cd[1];
-					dtThresh = dtThresh1;
-				}
-				else if ( ( elemData[i].pid == 3 ) || ( elemData[i].pid == 7 ) ) // CSF and vents
-				{
-					dt3D = lc3D/cd[3];
-					dt2D = dt3D;
-					dtThresh = dtThresh2;
-				}
-				else if ( ( elemData[i].pid == 4 ) || ( elemData[i].pid == 6 ) ) // GM and BS
-				{
-					dt3D = lc3D/cd[4];
-					dt2D = lc2D/cd[6];
-					dtThresh = dtThresh2;
-				}
-				else if ( elemData[i].pid == 5 ) // WM
-				{
-					dt3D = lc3D/cd[4];
-					dt2D = dt3D;
-					dtThresh = dtThresh2;
-				}
-				else if ( ( elemData[i].pid == 8 ) || ( elemData[i].pid == 9 ) ) // falx and tent
-				{
-					dt3D = lc3D/cd[3];
-					dt2D = lc2D/cd[5];
-					dtThresh = dtThresh2;
-				}
+	        for (int p = 0; p < nNodes; ++p)
+	            if (nodeClass[p] == 1)
+	                for (int dim = 0; dim < 3; ++dim)
+	                    dumNodeData[p].xyz[dim] = nodeData[p].xyz[dim];
 
-				dtmin = std::min( dt2D, dt3D );
-				
-				if ( dtmin < dtThresh )
-				{
+	        int nPass = 0, nLockedNow = 0;
+	        bool changed = true;
+	        while (changed)
+	        {
+	            changed = false;
+	            ++nPass;
+	            for (int i = 0; i < nElems; ++i)
+	            {
+	                bool moved = false;
 	                for (int j = 0; j < 8; ++j)
-						nodeClass[uNodes[elemData[i].conn[j]]] = 1;//fix the nodes of the element
-				}
+	                {
+	                    nid = uNodes[elemData[i].conn[j]];
+	                    for (int dim = 0; dim < 3; ++dim)
+	                    {
+	                        dumPos[j].xyz[dim] = dumNodeData[nid].xyz[dim];
+	                        if (dumNodeData[nid].xyz[dim] != nodeData[nid].xyz[dim])
+	                            moved = true;
+	                    }
+	                }
+
+	                if (!moved)
+	                    continue;
+
+	                jac_len(gridSpacing, dumPos, &(detJ[i]), &(detJcent[i]), &(lc2D), &(lc3D) );
+	                dtmin = element_dt(elemData[i].pid, lc2D, lc3D, cd, dtThresh1, dtThresh2, &dtThresh);
+
+	                if ( (detJ[i] < jacThresh) || (dtmin < dtThresh) )
+	                {
+
+	                    for (int j = 0; j < 8; ++j)
+	                    {
+	                        nid = uNodes[elemData[i].conn[j]];
+	                        for (int dim = 0; dim < 3; ++dim)
+	                            dumNodeData[nid].xyz[dim] = nodeData[nid].xyz[dim];
+	                        if (nodeClass[nid] != 1)
+	                        {
+	                            nodeClass[nid] = 1;
+	                            ++nLockedNow;
+	                        }
+	                    }
+	                    changed = true;
+	                }
+	            }
 	        }
-	        
-	        //Apply the refinement to the mesh
-			for (int i = 0; i < nNodes; ++i)
-				if (nodeClass[i] > 1) // This condition does not prevent elements with excessive destortion
-					for (int dim = 0; dim < 3; ++dim)
-						nodeData[i].xyz[dim] = dumNodeData[i].xyz[dim];		
-            
-            //Determine the Jacobian and min length for the refined mesh
+
+	        for (int p = 0; p < nNodes; ++p)
+	            for (int dim = 0; dim < 3; ++dim)
+	                nodeData[p].xyz[dim] = dumNodeData[p].xyz[dim];
+
+	        int nLockedTotal = 0;
+	        for (int p = 0; p < nNodes; ++p)
+	            if (nodeClass[p] == 1)
+	                ++nLockedTotal;
+	        std::cout << "Check passes: " << nPass << ", nodes locked in this iteration: "
+	                  << nLockedNow << ", locked in total: " << nLockedTotal << std::endl;
+	        logfile << "Check passes: " << nPass << ", nodes locked in this iteration: "
+	                << nLockedNow << ", locked in total: " << nLockedTotal << std::endl;
             for (int i = 0; i < nElems; ++i)
 	        {
 			    for (int j = 0; j < 8; ++j)
@@ -569,36 +622,10 @@ int main(int argc, char * argv[])
 			
 			    jac_len(gridSpacing, dumPos, &(detJ[i]), &(detJcent[i]), &(lc2D), &(lc3D) );
 			    
-			    if ( elemData[i].pid == 1 ) // skin
-				{
-					dt3D = lc3D/cd[0];
-					dt2D = dt3D;
-				}
-				else if ( elemData[i].pid == 2 ) // skull
-				{
-					dt3D = lc3D/cd[2];
-					dt2D = lc2D/cd[1];
-				}
-				else if ( ( elemData[i].pid == 3 ) || ( elemData[i].pid == 7 ) ) // CSF and vents
-				{
-					dt3D = lc3D/cd[3];
-					dt2D = dt3D;
-				}
-				else if ( ( elemData[i].pid == 4 ) || ( elemData[i].pid == 6 ) ) // GM and BS
-				{
-					dt3D = lc3D/cd[4];
-					dt2D = lc2D/cd[6];
-				}
-				else if ( elemData[i].pid == 5 ) // WM
-				{
-					dt3D = lc3D/cd[4];
-					dt2D = dt3D;
-				}
-				else if ( ( elemData[i].pid == 8 ) || ( elemData[i].pid == 9 ) ) // falx and tent
-				{
-					dt3D = lc3D/cd[3];
-					dt2D = lc2D/cd[5];
-				}
+			    {
+				float dtThrDum;
+				dt2D = dt3D = element_dt(elemData[i].pid, lc2D, lc3D, cd, dtThresh1, dtThresh2, &dtThrDum);
+			    }
 
 				dtmin = std::min( dt2D, dt3D );
 			    
@@ -609,6 +636,8 @@ int main(int argc, char * argv[])
 					minlc3D = lc3D;
 					minDetJcent = detJcent[i];
 					mindtmin = dtmin;
+					mindtmin_skull = 1.0e10f;
+					mindtmin_brain = 1.0e10f;
 				}
 				
 				if (detJ[i] < minDetJ)
@@ -621,17 +650,32 @@ int main(int argc, char * argv[])
 					minDetJcent = detJcent[i];			
 				if ( dtmin < mindtmin )
 					mindtmin = dtmin;  
+            	{
+					int tissue = classifyPID(elemData[i].pid);
+					if ( tissue == 0 || tissue == 1 || tissue == 2 )
+					{
+						if ( dtmin < mindtmin_skull ) mindtmin_skull = dtmin;
+					}
+					else
+					{
+						if ( dtmin < mindtmin_brain ) mindtmin_brain = dtmin;
+					}
+				}
             }
-            	        
+
 			std::cout << int(1 + k/2)  << " iterations done." << std::endl;
-			//~ std::cout << "Minimum Jacobian (at element corners): " << minDetJ << std::endl;
+			std::cout << "Minimum scaled Jacobian (at element corners): " << minDetJ << std::endl;
 			std::cout << "Minimum Jacobian (at element centre): " << minDetJcent << std::endl;
 			std::cout << "Minimum characteristic length (2D - 3D): " << minlc2D << " - " << minlc3D << std::endl;
+			std::cout << "Minimum time step skull/skin: " << mindtmin_skull << std::endl;
+			std::cout << "Minimum time step brain/CSF:  " << mindtmin_brain  << std::endl;
 			std::cout << "Minimum time step: " << mindtmin << std::endl;
 			logfile << int(1 + k/2)  << " iterations done." << std::endl;
-			//~ logfile << "Minimum Jacobian (at element corners): " << minDetJ << std::endl;
+			logfile << "Minimum scaled Jacobian (at element corners): " << minDetJ << std::endl;
 			logfile << "Minimum Jacobian (at element centre): " << minDetJcent << std::endl;
 			logfile << "Minimum characteristic length (2D - 3D): " << minlc2D << " - " << minlc3D << std::endl;
+			logfile << "Minimum time step skull/skin [ns]: " << mindtmin_skull*1e6 << std::endl;
+			logfile << "Minimum time step brain/CSF  [ns]: " << mindtmin_brain*1e6  << std::endl;
 			logfile << "Minimum time step [ns]: " << mindtmin*1e6 << std::endl;
 	    }  
 	}
@@ -642,8 +686,6 @@ int main(int argc, char * argv[])
 		<< std::endl << std::endl;
 
 	
-	// --------------------------------------------------------------
-	// Write the new k file
 	
 	std::cout << "Writing the k file ..." << std::endl << std::endl;
 	
@@ -657,7 +699,8 @@ int main(int argc, char * argv[])
 	for (int i = 0; i < nElems; ++i)
 	{
 		outfile << std::setw(8) << elemData[i].eid;
-		outfile << std::setw(8) << elemData[i].pid;
+		int outPid = (elemData[i].pid == 258 || elemData[i].pid == 259) ? 256 : elemData[i].pid;
+		outfile << std::setw(8) << outPid;
 		for (j = 0; j < 8; ++j)
 			outfile << std::setw(8) << elemData[i].conn[j];
 		outfile << "\n";
@@ -669,7 +712,7 @@ int main(int argc, char * argv[])
 	
 	for ( int i = 0; i < nShellElems; ++i)
 	{
-		 outfile << std::setw(8) << shellElemData[i].eid << std::setw(8) << shellElemData[i].pid + 2;
+		 outfile << std::setw(8) << shellElemData[i].eid << std::setw(8) << shellElemData[i].pid;
 		 
 		 for ( int j = 0; j < 4; ++j)
 			outfile << std::setw(8) << shellElemData[i].conn[j];
@@ -699,22 +742,10 @@ int main(int argc, char * argv[])
 }
 
 
-//----------------------------------------------------------------------
-// Functions
 
 void neighbourlist(float horizon, int max_interactions, int nSeeds,
 	position * pos, int *niac, int *pair_i, int *pair_j)
 {	
-/*  This function lists the neighbours of the seeds.
-    The relation is called an interaction or a bond.
-
-	(input)	nSeeds - number of the seeds of the grid
-	(input)	horizon - the search radius
-    (input)	max_interactions
-	(wild pointer input)	pos - position of the seeds of the grid
-	((wild pointer input) output)	niac = number of interactions
-	((wild pointer input) output)	pair_i & pair_j - these are arrays
-		of corresponding interactions */
     
     double xmin[3], xmax[3], r, dr, dgeomx[3], maxgridx[3], mingridx[3],
 		dx[3], a[3];
@@ -724,7 +755,6 @@ void neighbourlist(float horizon, int max_interactions, int nSeeds,
     int *llist = new int[nSeeds];
     double *xgcell = new double[nSeeds*dimensions];  
 
-    // Determine the coordinates of the diagonal corners of a box surrounding the model.
     for (int dims = 0; dims < dimensions; dims++)
     {
         xmin[dims] = pos[0].xyz[dims];
@@ -743,14 +773,13 @@ void neighbourlist(float horizon, int max_interactions, int nSeeds,
     {    
         a[dims] = (xmax[dims]-xmin[dims])/horizon;
 
-        ncells[dims] = floor(a[dims]) + 2; // number of cells in each dimension
-        maxgridx[dims] = xmin[dims] + ncells[dims]*horizon; // max coordinate of the grid
-        mingridx[dims] = xmin[dims] - horizon; // min coordinate of the grid
+        ncells[dims] = floor(a[dims]) + 2; 
+        maxgridx[dims] = xmin[dims] + ncells[dims]*horizon; 
+        mingridx[dims] = xmin[dims] - horizon; 
   
         dgeomx[dims] = maxgridx[dims] - mingridx[dims];        
     }
     
-    // Initialise the grid
 	int *hoc = new int[ncells[0]*ncells[1]*ncells[2]];
 	
 	for (int i = 0; i < ncells[0]*ncells[1]*ncells[2]; ++i)
@@ -761,7 +790,7 @@ void neighbourlist(float horizon, int max_interactions, int nSeeds,
         for (int dims = 0; dims < dimensions; dims++)
         {    
             gcell[dims] = floor((ncells[dims]/dgeomx[dims])*(pos[i].xyz[dims]-mingridx[dims]) + 1.0);
-            xgcell[i + dims*nSeeds] = gcell[dims]; // cell number in which the node i is located
+            xgcell[i + dims*nSeeds] = gcell[dims]; 
             
             if (gcell[dims] < 1)
             {
@@ -771,14 +800,11 @@ void neighbourlist(float horizon, int max_interactions, int nSeeds,
         }
      
         index = gcell[0]-1 + (ncells[0]*(gcell[1]-1)) + ((gcell[2]-1)*ncells[0]*ncells[1]);
-        // keep the number of the next (i.e. lower) particle in the presently treated cell
         llist[i] = hoc[index];
-        // keep the largest particle number of all inhabitants of the cell (head of chain, hoc)
         hoc[index] = i;
     }
     
     
-    // Find the neighbours for each node
     (*niac) = 0;
     int countiac = 0;
 
@@ -793,10 +819,10 @@ void neighbourlist(float horizon, int max_interactions, int nSeeds,
 		for (int dims = 0; dims < dimensions; dims++)
 		{
 			gcell[dims] = floor((ncells[dims]/dgeomx[dims])*(pos[i].xyz[dims]-mingridx[dims]) + 1.0);
-			dnxgcell[dims] = gcell [dims] - 1; // index of the previous cell
-			dpxgcell[dims] = gcell [dims] + 1; // index of the next cell
-			minxcell[dims] = std::max(dnxgcell[dims],1); // index of the previous cell. if there is no previous cell, the current cell index or 1.
-			maxxcell[dims] = std::min(dpxgcell[dims],ncells[dims]); // index of the next cell. if there is no next cell, the current cell index or max no of cells. 		
+			dnxgcell[dims] = gcell [dims] - 1; 
+			dpxgcell[dims] = gcell [dims] + 1; 
+			minxcell[dims] = std::max(dnxgcell[dims],1); 
+			maxxcell[dims] = std::min(dpxgcell[dims],ncells[dims]); 	
 		}
 	
 		for (int zcell = minxcell[2]-1; zcell < maxxcell[2]; zcell++)
@@ -820,7 +846,7 @@ void neighbourlist(float horizon, int max_interactions, int nSeeds,
 	
 						if (r <= horizon)
 						{
-							if ( (*niac) > max_interactions)
+							if ( (*niac) >= max_interactions)
 							{
 								std::cout << "Error: too many interactions! ";
 								std::cout << "You may check the spacing and horizon definitions." << std::endl;
@@ -841,67 +867,44 @@ void neighbourlist(float horizon, int max_interactions, int nSeeds,
 		countiac = 0;
 	} 
     
-    delete hoc;
-    delete llist;
-    delete xgcell;
-
-	if((*niac) < max_interactions)
-	{
-		pair_i = (int*)realloc(pair_i, (*niac)*sizeof(int));
-		pair_j = (int*)realloc(pair_j, (*niac)*sizeof(int));
-	}
+    delete [] hoc;
+    delete [] llist;
+    delete [] xgcell;
 }
 
 
 void jac_len(int gridSpacing, position dumPos[], float *detJ, 
 	float *detJcent, float *lc2D, float *lc3D)
 {    
-    // Determine the min value of the Jacobian at the corners
+    static const int cornerNb[8][3] = { {1,3,4}, {2,0,5}, {3,1,6}, {0,2,7},
+                                        {7,5,0}, {4,6,1}, {5,7,2}, {6,4,3} };
     (*detJ) = 100.0;
+    for (int c = 0; c < 8; ++c)
+    {
+        double e[3][3], n[3];
+        for (int m = 0; m < 3; ++m)
+        {
+            for (int dim = 0; dim < 3; ++dim)
+                e[m][dim] = dumPos[cornerNb[c][m]].xyz[dim] - dumPos[c].xyz[dim];
+            n[m] = sqrt(e[m][0]*e[m][0] + e[m][1]*e[m][1] + e[m][2]*e[m][2]);
+        }
+        double det = e[2][0]*(e[0][1]*e[1][2] - e[0][2]*e[1][1])
+                   - e[2][1]*(e[0][0]*e[1][2] - e[0][2]*e[1][0])
+                   + e[2][2]*(e[0][0]*e[1][1] - e[0][1]*e[1][0]);
+        double sj = (n[0]*n[1]*n[2] > 1e-30) ? det/(n[0]*n[1]*n[2]) : -1.0;
+        if (sj < (*detJ))
+            (*detJ) = (float) sj;
+    }
     float ksi[] = {-1, 1, 1, -1, -1, 1, 1, -1};
     float etha[] = {-1, -1, 1, 1, -1, -1, 1, 1};
     float mu[] = {-1, -1, -1, -1, 1, 1, 1, 1};
            
-    //~ // To evaluate the Jacobian at sampling points of the second order Gauss quadrature use:
-    //~ float spCoef = 0.57735;
     
     float cn[] = {0, 0, 0};
     double J[9];
     double dumJ, volume;
     int dumInd, dumInd1, dumInd2;
     
-    //~ // Determine the max determinant at the corners of the element
-    //~ for (int n = 0; n < 8; ++n)
-    //~ {
-		//~ for (int dim = 0; dim < 9; ++dim)
-			//~ J[dim] = 0.0;
-        		//~ 
-        //~ //cn[0] = ksi[n]*spCoef; cn[1] = etha[n]*spCoef; cn[2] = mu[n]*spCoef;
-        //~ cn[0] = ksi[n]; cn[1] = etha[n]; cn[2] = mu[n];
-        //~ 
-        //~ for (int i = 0; i < 8; ++i)
-        //~ {
-            //~ J[0] = J[0] + dumPos[i].xyz[0]*ksi[i]*(1 + cn[2]*etha[i])*(1 + cn[3]*mu[i]);
-            //~ J[1] = J[1] + dumPos[i].xyz[0]*etha[i]*(1 + cn[1]*ksi[i])*(1 + cn[3]*mu[i]);
-            //~ J[2] = J[2] + dumPos[i].xyz[0]*mu[i]*(1 + cn[1]*ksi[i])*(1 + cn[2]*etha[i]);
-            //~ J[3] = J[3] + dumPos[i].xyz[1]*ksi[i]*(1 + cn[2]*etha[i])*(1 + cn[3]*mu[i]);
-            //~ J[4] = J[4] + dumPos[i].xyz[1]*etha[i]*(1 + cn[1]*ksi[i])*(1 + cn[3]*mu[i]);
-            //~ J[5] = J[5] + dumPos[i].xyz[1]*mu[i]*(1 + cn[1]*ksi[i])*(1 + cn[2]*etha[i]);
-            //~ J[6] = J[6] + dumPos[i].xyz[2]*ksi[i]*(1 + cn[2]*etha[i])*(1 + cn[3]*mu[i]);
-            //~ J[7] = J[7] + dumPos[i].xyz[2]*etha[i]*(1 + cn[1]*ksi[i])*(1 + cn[3]*mu[i]);
-            //~ J[8] = J[8] + dumPos[i].xyz[2]*mu[i]*(1 + cn[1]*ksi[i])*(1 + cn[2]*etha[i]);
-        //~ }
-        //~ 
-        //~ dumJ = J[0]*(J[4]*J[8] - J[5]*J[7]) - 
-			//~ J[1]*(J[3]*J[8] - J[5]*J[6]) +
-			//~ J[2]*(J[3]*J[7] - J[4]*J[6]);
-		//~ dumJ = 0.125*0.125*0.125*dumJ;
-			//~ 
-        //~ if (dumJ < (*detJ))
-			//~ (*detJ) = dumJ;
-    //~ }
-    
-    // Determine determinant at the centre of the element
 	for (int dim = 0; dim < 9; ++dim)
 		J[dim] = 0.0;
         		
@@ -922,11 +925,9 @@ void jac_len(int gridSpacing, position dumPos[], float *detJ,
 		J[1]*(J[3]*J[8] - J[5]*J[6]) +
 		J[2]*(J[3]*J[7] - J[4]*J[6]);
 	(*detJcent) = 0.125*0.125*0.125*dumJ;
-	// (*detJ) = (*detJcent);
     
     volume = 8*(*detJcent);
     
-    // Determine the max area of the faces and the longest side of each face
     float area;
     float areaMax = 0;
     float len, lenMax;
@@ -981,4 +982,39 @@ void jac_len(int gridSpacing, position dumPos[], float *detJ,
     
     if ( volume/areaMax < (*lc3D) )
 		(*lc3D) = volume/areaMax;
+}
+float element_dt(int pid, float lc2D, float lc3D, const float *cd,
+	float dtThresh1, float dtThresh2, float *dtThresh)
+{
+	static int nWarn = 0;
+	float dt2D, dt3D;
+	int tissue = classifyPID(pid);
+
+	if ( tissue == 0 )
+	{
+		dt3D = lc3D/cd[0]; dt2D = dt3D; *dtThresh = dtThresh1;
+	}
+	else if ( tissue == 1 )
+	{
+		dt3D = lc3D/cd[1]; dt2D = lc2D/cd[1]; *dtThresh = dtThresh1;
+	}
+	else if ( tissue == 2 )
+	{
+		dt3D = lc3D/cd[2]; dt2D = lc2D/cd[2]; *dtThresh = dtThresh1;
+	}
+	else if ( tissue == 3 )
+	{
+		dt3D = lc3D/cd[3]; dt2D = dt3D; *dtThresh = dtThresh2;
+	}
+	else
+	{
+		if ( tissue != 4 && nWarn < 10 )
+		{
+			std::cerr << "Warning: unrecognised PID " << pid
+			          << ". Using brain wave speed and dtThresh2 as fallback." << std::endl;
+			++nWarn;
+		}
+		dt3D = lc3D/cd[4]; dt2D = dt3D; *dtThresh = dtThresh2;
+	}
+	return std::min( dt2D, dt3D );
 }
