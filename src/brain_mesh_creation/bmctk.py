@@ -1,9 +1,4 @@
 '''
-Harry Duckworth - hd1117@ic.ac.uk
-Ph.D. Student 
-Dyson School of Design Engineering
-Imperial College London
-
 This script imports a nifti file and creates a finite element model based on it. 
 
 Pre-processesing a nifti file by:
@@ -541,7 +536,7 @@ class create_model():
             j = int(key[1])
             k = int(key[2])
             
-            scan_coords = self.apply_affine(i, j, k)
+            scan_coords = self.apply_affine(i - 0.5, j - 0.5, k - 0.5)
 
             # write to k format
             output_mesh_file.write(str(value).strip("[").strip("]").rjust(8)+
@@ -1051,17 +1046,16 @@ class create_model():
                 
                 # Slice out part number
                 
-                line_split = line.split()
-                part_num = line_split[1]
+                part_num = line[8:16].strip()
                 if int(float(part_num)) in brain_parts:
-                    n1 = line_split[2]
-                    n2 = line_split[3]
-                    n3 = line_split[4]
-                    n4 = line_split[5]
-                    n5 = line_split[6]
-                    n6 = line_split[7]
-                    n7 = line_split[8]
-                    n8 = line_split[9]
+                    n1 = line[16:24].strip()
+                    n2 = line[24:32].strip()
+                    n3 = line[32:40].strip()
+                    n4 = line[40:48].strip()
+                    n5 = line[48:56].strip()
+                    n6 = line[56:64].strip()
+                    n7 = line[64:72].strip()
+                    n8 = line[72:80].strip()
                     
                     if int(n1) > 0:
                         all_brain_nodes.append(n1)
@@ -1769,7 +1763,7 @@ def create_sub_file(vrf_id, ncpus, memory, private_queue, queue, walltime):
     output_sub_file.write("#PBS -N "+vrf_id+"\n\n")
     output_sub_file.write("module load intel-suite/\n")
     output_sub_file.write("module load ls-dyna/R9.1.0-double\n")
-    output_sub_file.write("export LSTC_LICENSE_SERVER=wssb-aa6616-imac.dyson.ic.ac.uk\n\n")
+    output_sub_file.write("export LSTC_LICENSE_SERVER=license_server\n\n")
     output_sub_file.write("FILE=run.k\n")
     output_sub_file.write("FOLDER=$PBS_O_WORKDIR\n")
     output_sub_file.write("cd $FOLDER\n\n")
@@ -1778,14 +1772,6 @@ def create_sub_file(vrf_id, ncpus, memory, private_queue, queue, walltime):
     output_sub_file.write("pwd\n")
     
 def scale_coords(file_dir_source, file_dir_save, file_name, ratio_length, ratio_breadth, ratio_height):
-    """
-    Read a file and update the coordinates of any nodes to be scaled with the ratio for each dimention.
-
-    file_dir_source = location directory of source file. This will be the base model folder
-    file_dir_save   = location which the file is being saved in. This will be the subject folder in verification
-    file_name       = name of the file being scaled
-
-    """
     # Set variables
     to_read = False    
 

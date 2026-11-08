@@ -17,10 +17,12 @@ def extract_nodes(lines):
         elif line.startswith("*") and read_nodes:
             break
         if read_nodes and not line.startswith("$"):
-            values = line.strip().split()
-            if len(values) >= 4:
-                nid, x, y, z = map(float, values[0:4])
-                nodes.append((int(nid), x, y, z))
+            nid = int(line[0:8].strip())
+            x = float(line[8:24].strip())
+            y = float(line[24:40].strip())
+            z = float(line[40:56].strip())
+            
+            nodes.append((nid, x, y, z))
     return nodes
 
 def extract_solid_elements(lines):
@@ -33,14 +35,19 @@ def extract_solid_elements(lines):
         elif line.startswith("*") and read_elements:
             break
         if read_elements and not line.startswith("$"):
-            clean_line = line.replace(',', ' ')
-            values = list(map(int, clean_line.split()))
+            eid = int(line[0:8].strip())
+            pid = int(line[8:16].strip())
+            n1 = int(line[16:24].strip())
+            n2 = int(line[24:32].strip())
+            n3 = int(line[32:40].strip())
+            n4 = int(line[40:48].strip())
+            n5 = int(line[48:56].strip())
+            n6 = int(line[56:64].strip())
+            n7 = int(line[64:72].strip())
+            n8 = int(line[72:80].strip())
             
-            if len(values) >= 10:
-                eid = values[0]
-                pid = values[1]
-                nodes = values[2:10]
-                solid_elements.append({'eid': eid, 'pid': pid, 'nodes': nodes})
+            nodes = [n1, n2, n3, n4, n5, n6, n7, n8]
+            solid_elements.append({'eid': eid, 'pid': pid, 'nodes': nodes})
     return solid_elements
 
 def find_and_update_contact_elements(elements):
