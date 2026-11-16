@@ -33,9 +33,9 @@ Each subject should use this structure:
 data/subjects/{subject_name}/
 └── img/
     └── fs_seg/
-        ├── T1.nii.gz
-        ├── brain.nii.gz
-        └── aseg.nii.gz
+        ├── T1.mgz
+        ├── brain.mgz
+        └── aseg.mgz
 ```
 
 For example:
@@ -44,18 +44,20 @@ For example:
 data/subjects/subject_01/
 └── img/
     └── fs_seg/
-        ├── T1.nii.gz
-        ├── brain.nii.gz
-        └── aseg.nii.gz
+        ├── T1.mgz
+        ├── brain.mgz
+        └── aseg.mgz
 ```
 
-The required inputs are:
+The required inputs are three outputs of FreeSurfer `recon-all`, found in the subject's `mri/` folder:
 
 | File | Description | Where it should be placed |
 |---|---|---|
-| `T1.nii.gz` | structural T1-weighted MRI | `data/subjects/{subject_name}/img/fs_seg/` |
-| `brain.nii.gz` | skull-stripped brain image | `data/subjects/{subject_name}/img/fs_seg/` |
-| `aseg.nii.gz` | anatomical segmentation | `data/subjects/{subject_name}/img/fs_seg/` |
+| `T1.mgz` | structural T1-weighted MRI | `data/subjects/{subject_name}/img/fs_seg/` |
+| `brain.mgz` | skull-stripped brain image | `data/subjects/{subject_name}/img/fs_seg/` |
+| `aseg.mgz` | anatomical segmentation | `data/subjects/{subject_name}/img/fs_seg/` |
+
+The first notebook converts these files to NIfTI (`T1.nii.gz`, `brain.nii.gz` and `aseg.nii.gz`) in the same folder, because FSL does not read `.mgz` files. If you already have these NIfTI files, you can place them in the folder instead of the `.mgz` files.
 
 These files should have matching geometry and should be named exactly as shown above. If your exported files have different names, rename them before running the notebooks rather than editing the notebook paths.
 

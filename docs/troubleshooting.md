@@ -24,10 +24,12 @@ If it does not, restart Jupyter or VS Code so that the notebook working director
 Confirm that the selected subject contains:
 
 ```text
-data/subjects/{subject_name}/img/fs_seg/T1.nii.gz
-data/subjects/{subject_name}/img/fs_seg/brain.nii.gz
-data/subjects/{subject_name}/img/fs_seg/aseg.nii.gz
+data/subjects/{subject_name}/img/fs_seg/T1.mgz
+data/subjects/{subject_name}/img/fs_seg/brain.mgz
+data/subjects/{subject_name}/img/fs_seg/aseg.mgz
 ```
+
+or the `.nii.gz` versions of the same three files.
 
 Also check that `subject_name` exactly matches the folder name, including capitalisation.
 
